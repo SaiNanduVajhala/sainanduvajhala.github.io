@@ -27,6 +27,9 @@
   --accent-rgb: 107, 143, 101;
   --glow-color: rgba(107, 143, 101, 0.06);
   --border-light: rgba(42, 37, 32, 0.06);
+  --navbar-bg: rgba(248, 243, 232, 0.45);
+  --navbar-border: rgba(107, 143, 101, 0.22);
+  --navbar-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.85), inset 0 -1px 0 0 rgba(107, 143, 101, 0.05);
 }
 
 /* Dark Theme (Rich Charcoal + Olive Green) */
@@ -45,6 +48,9 @@
   --accent-rgb: 156, 163, 122;
   --glow-color: rgba(156, 163, 122, 0.04);
   --border-light: rgba(229, 225, 219, 0.04);
+  --navbar-bg: rgba(17, 17, 16, 0.5);
+  --navbar-border: rgba(156, 163, 122, 0.22);
+  --navbar-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 0 rgba(0, 0, 0, 0.35);
 }
 
 * {
@@ -138,11 +144,11 @@ section {
   z-index: 50;
   height: 3.5rem;
   border-radius: 9999px;
-  background: var(--card-bg);
-  backdrop-filter: blur(28px); /* High blur completely diffuses elements behind it */
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid var(--card-border);
-  box-shadow: 0 4px 20px -2px var(--glow-color);
+  background: var(--navbar-bg);
+  backdrop-filter: blur(24px) saturate(220%);
+  -webkit-backdrop-filter: blur(24px) saturate(220%);
+  border: 1px solid var(--navbar-border);
+  box-shadow: var(--navbar-highlight), 0 4px 20px -2px var(--glow-color);
   overflow: hidden;
   /* ponytail: let Framer Motion handle height and border-radius smoothly without CSS transitions */
   transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
@@ -214,8 +220,8 @@ section {
   align-items: center !important;
   justify-content: center !important;
   cursor: pointer;
-  background: var(--card-bg) !important;
-  border: 1px solid var(--card-border) !important;
+  background: rgba(var(--accent-rgb), 0.05) !important;
+  border: 1px solid var(--navbar-border) !important;
   color: var(--text-secondary) !important;
   transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease, color 0.2s ease !important;
   box-sizing: border-box !important;
@@ -227,7 +233,7 @@ section {
 
 @media (hover: hover) {
   .nav-btn:hover {
-    border-color: var(--card-hover-border) !important;
+    border-color: var(--accent) !important;
     color: var(--text-primary) !important;
   }
 }
@@ -238,8 +244,8 @@ section {
 .nav-btn:focus-within {
   outline: none !important;
   box-shadow: none !important;
-  border-color: var(--card-border) !important;
-  background: var(--card-bg) !important;
+  border-color: var(--navbar-border) !important;
+  background: rgba(var(--accent-rgb), 0.05) !important;
 }
 
 .nav-btn:active {
@@ -269,8 +275,8 @@ section {
   justify-content: space-between;
   min-height: 130px;
   padding: 1.25rem;
-  background: rgba(var(--accent-rgb), 0.03);
-  border: 1px solid var(--card-border);
+  background: rgba(var(--accent-rgb), 0.05);
+  border: 1px solid var(--navbar-border);
   border-radius: 16px;
   text-decoration: none;
   text-align: left;
@@ -281,7 +287,7 @@ section {
 }
 
 .card-nav-item:hover {
-  background: rgba(var(--accent-rgb), 0.06);
+  background: rgba(var(--accent-rgb), 0.1);
   border-color: var(--accent);
   transform: translateY(-3px);
   box-shadow: 0 10px 25px -5px var(--glow-color);
