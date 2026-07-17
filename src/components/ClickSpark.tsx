@@ -34,13 +34,13 @@ export const ClickSpark: React.FC<ClickSparkProps> = ({
     let animationFrameId: number;
 
     const resizeCanvas = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
     };
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    const handleClick = (e: MouseEvent) => {
+    const handlePointerDown = (e: PointerEvent) => {
       const x = e.clientX;
       const y = e.clientY;
 
@@ -59,7 +59,7 @@ export const ClickSpark: React.FC<ClickSparkProps> = ({
       }
     };
 
-    window.addEventListener('click', handleClick);
+    window.addEventListener('pointerdown', handlePointerDown);
 
     const updateAndDraw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -99,7 +99,7 @@ export const ClickSpark: React.FC<ClickSparkProps> = ({
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
-      window.removeEventListener('click', handleClick);
+      window.removeEventListener('pointerdown', handlePointerDown);
       cancelAnimationFrame(animationFrameId);
     };
   }, [sparkColor, sparkSize, sparkCount, sparkSpeed]);
@@ -110,8 +110,8 @@ export const ClickSpark: React.FC<ClickSparkProps> = ({
       style={{
         position: 'fixed',
         inset: 0,
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
         zIndex: 9999, // Render on top of page content to display sparks over elements
         pointerEvents: 'none' // Direct clicks through the canvas overlay
       }}

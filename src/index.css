@@ -16,7 +16,6 @@
   --background: #f8f3e8;
   --foreground: #2a2520;
   --card-bg: rgba(255, 252, 245, 0.5); /* Higher transparency for glassmorphism */
-  --nav-bg: rgba(248, 243, 232, 0.82); /* Semi-opaque fallback for navbar */
   --card-border: #e2dcd0;
   --card-hover-border: #b5ad9e;
   --text-primary: #2a2520;
@@ -35,7 +34,6 @@
   --background: #111110;
   --foreground: #e5e1db;
   --card-bg: rgba(20, 20, 19, 0.55); /* Higher transparency for glassmorphism */
-  --nav-bg: rgba(17, 17, 16, 0.85);  /* Semi-opaque fallback for navbar */
   --card-border: #262524;
   --card-hover-border: #3d3b39;
   --text-primary: #e5e1db;
@@ -129,6 +127,7 @@ section {
   scroll-margin-top: 5.5rem;
 }
 
+/* Floating Capsule Navbar */
 .navbar {
   position: fixed;
   top: calc(0.75rem + env(safe-area-inset-top, 0px));
@@ -139,26 +138,15 @@ section {
   z-index: 50;
   height: 3.5rem;
   border-radius: 9999px;
+  background: var(--card-bg);
+  backdrop-filter: blur(28px); /* High blur completely diffuses elements behind it */
+  -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--card-border);
   box-shadow: 0 4px 20px -2px var(--glow-color);
   overflow: hidden;
   /* ponytail: let Framer Motion handle height and border-radius smoothly without CSS transitions */
   transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
               border-color 0.3s ease;
-}
-
-/* Pseudo-element to isolate backdrop-filter from overflow: hidden to resolve Chromium compositor rendering bug */
-.navbar::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--nav-bg);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  z-index: -1;
 }
 
 .navbar-open {

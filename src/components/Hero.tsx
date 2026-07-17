@@ -96,7 +96,7 @@ export const Hero: React.FC = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       style={{
-        height: '100vh',
+        minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -104,7 +104,8 @@ export const Hero: React.FC = () => {
         position: 'relative',
         overflow: 'hidden',
         textAlign: 'center',
-        padding: 0,
+        padding: '6.5rem 1rem 3rem',
+        boxSizing: 'border-box',
         zIndex: 1
       }}
     >
