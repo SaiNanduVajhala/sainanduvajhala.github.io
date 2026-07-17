@@ -301,7 +301,7 @@ export const Hero: React.FC = () => {
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
           style={{
             position: 'absolute',
-            bottom: '24%',
+            bottom: '12%',
             left: '6%',
             background: 'var(--card-bg)',
             border: '1px solid var(--card-border)',
@@ -326,7 +326,7 @@ export const Hero: React.FC = () => {
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           style={{
             position: 'absolute',
-            bottom: '24%',
+            bottom: '12%',
             right: '6%',
             background: 'var(--card-bg)',
             border: '1px solid var(--card-border)',
