@@ -108,7 +108,6 @@ body {
 .app-container {
   min-height: 100vh;
   position: relative;
-  z-index: 1;
 }
 
 .max-width-wrapper {
@@ -163,7 +162,6 @@ section {
 .navbar-glass-bg {
   position: absolute;
   inset: 0;
-  z-index: -1;
   border-radius: inherit;
   overflow: hidden;
   background: var(--navbar-bg);
@@ -189,6 +187,8 @@ section {
   height: 3.5rem;
   /* shorter height for capsule shape */
   padding: 0 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .logo {
@@ -278,6 +278,8 @@ section {
   padding: 0.5rem 1.5rem 1.5rem; /* spacing for grid elements inside */
   opacity: 0;
   transition: opacity 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .navbar-open .card-nav-dropdown-content {
