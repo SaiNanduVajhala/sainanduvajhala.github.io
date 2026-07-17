@@ -107,20 +107,6 @@ body {
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 1.5rem;
-  
-  /* Modern CSS mask to transparently fade out text content before it passes the floating navbar */
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent calc(0.5rem + env(safe-area-inset-top, 0px)),
-    black calc(6.5rem + env(safe-area-inset-top, 0px))
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    transparent calc(0.5rem + env(safe-area-inset-top, 0px)),
-    black calc(6.5rem + env(safe-area-inset-top, 0px))
-  );
 }
 
 section {
