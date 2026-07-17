@@ -30,6 +30,7 @@
   --navbar-bg: rgba(255, 255, 255, 0.35);
   --navbar-border: rgba(107, 143, 101, 0.22);
   --navbar-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.85), inset 0 -1px 0 0 rgba(107, 143, 101, 0.05);
+  --navbar-open-bg: rgba(248, 243, 232, 0.94);
 }
 
 /* Dark Theme (Rich Charcoal + Olive Green) */
@@ -51,6 +52,7 @@
   --navbar-bg: rgba(17, 17, 16, 0.35);
   --navbar-border: rgba(156, 163, 122, 0.22);
   --navbar-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 0 rgba(0, 0, 0, 0.35);
+  --navbar-open-bg: rgba(17, 17, 16, 0.95);
 }
 
 * {
@@ -157,7 +159,9 @@ section {
 }
 
 .navbar-open {
-  /* Keep transparent glassmorphic theme color instead of solid override */
+  background: var(--navbar-open-bg) !important;
+  backdrop-filter: blur(28px) saturate(140%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(140%) !important;
   box-shadow: 0 20px 40px -10px var(--glow-color) !important;
 }
 
