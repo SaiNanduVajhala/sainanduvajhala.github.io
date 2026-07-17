@@ -145,12 +145,18 @@ section {
   width: 90%;
   max-width: 900px;
   z-index: 50;
-  height: 3.5rem;
+  height: auto;
+  max-height: 3.5rem;
   border-radius: 9999px;
   box-shadow: 0 4px 20px -2px var(--glow-color);
+  transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
+              border-radius 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
+              box-shadow 0.28s ease;
 }
 
 .navbar-open {
+  max-height: 38rem;
+  border-radius: 24px;
   box-shadow: 0 20px 40px -10px var(--glow-color) !important;
 }
 

@@ -148,16 +148,7 @@ function App() {
       <ClickSpark sparkColor={theme === 'dark' ? '#a3b59e' : '#788a73'} sparkSize={10} sparkCount={10} sparkSpeed={3} />
 
       {/* Floating Capsule Header (Card Nav style) */}
-      <motion.header
-        initial={false}
-        animate={{
-          height: isMenuOpen ? 'auto' : '3.5rem',
-          borderRadius: isMenuOpen ? '24px' : '9999px'
-        }}
-        transition={{
-          duration: 0.28,
-          ease: [0.16, 1, 0.3, 1] // Snappier premium easeOut curve
-        }}
+      <header
         className={`navbar ${isMenuOpen ? 'navbar-open' : ''}`}
       >
         <div className="navbar-glass-bg" />
@@ -237,7 +228,7 @@ function App() {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.header>
+      </header>
 
       {/* Render Modular Fullscreen Hero Component */}
       <Hero />
