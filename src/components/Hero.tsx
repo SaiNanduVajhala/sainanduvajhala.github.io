@@ -11,53 +11,53 @@ const ShootingStars: React.FC<{
   starColor?: string; trailColor?: string; starWidth?: number; starHeight?: number;
 }> = ({ minSpeed = 10, maxSpeed = 30, minDelay = 1200, maxDelay = 4200,
   starColor = '#9E00FF', trailColor = '#2EB9DF', starWidth = 10, starHeight = 1 }) => {
-  const [star, setStar] = useState<ShootingStarData | null>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
-  const getRandomStart = useCallback(() => {
-    const side = Math.floor(Math.random() * 4);
-    const offset = Math.random() * window.innerWidth;
-    switch (side) {
-      case 0: return { x: offset, y: 0, angle: 45 };
-      case 1: return { x: window.innerWidth, y: offset, angle: 135 };
-      case 2: return { x: offset, y: window.innerHeight, angle: 225 };
-      default: return { x: 0, y: offset, angle: 315 };
-    }
-  }, []);
-  useEffect(() => {
-    const create = () => {
-      const { x, y, angle } = getRandomStart();
-      const s: ShootingStarData = { id: Date.now(), x, y, angle, scale: 1, speed: minSpeed + Math.random() * (maxSpeed - minSpeed), distance: 0 };
-      setStar(s);
-      setTimeout(() => setStar(null), Math.max(window.innerWidth, window.innerHeight) / s.speed * 50);
-    };
-    const schedule = (): ReturnType<typeof setTimeout> => setTimeout(() => { create(); ref.current = schedule(); }, minDelay + Math.random() * (maxDelay - minDelay));
-    const ref: { current: ReturnType<typeof setTimeout> | null } = { current: null };
-    create(); ref.current = schedule();
-    return () => { if (ref.current) clearTimeout(ref.current); };
-  }, [minSpeed, maxSpeed, minDelay, maxDelay, getRandomStart]);
-  useEffect(() => {
-    if (!star) return;
-    let raf: number;
-    const move = () => {
-      setStar(p => {
-        if (!p) return null;
-        const rad = (p.angle * Math.PI) / 180;
-        const d = p.distance + p.speed * 0.5;
-        if (d > Math.max(window.innerWidth, window.innerHeight)) return null;
-        return { ...p, x: p.x + Math.cos(rad) * p.speed * 0.5, y: p.y + Math.sin(rad) * p.speed * 0.5, distance: d };
-      });
+    const [star, setStar] = useState<ShootingStarData | null>(null);
+    const svgRef = useRef<SVGSVGElement>(null);
+    const getRandomStart = useCallback(() => {
+      const side = Math.floor(Math.random() * 4);
+      const offset = Math.random() * window.innerWidth;
+      switch (side) {
+        case 0: return { x: offset, y: 0, angle: 45 };
+        case 1: return { x: window.innerWidth, y: offset, angle: 135 };
+        case 2: return { x: offset, y: window.innerHeight, angle: 225 };
+        default: return { x: 0, y: offset, angle: 315 };
+      }
+    }, []);
+    useEffect(() => {
+      const create = () => {
+        const { x, y, angle } = getRandomStart();
+        const s: ShootingStarData = { id: Date.now(), x, y, angle, scale: 1, speed: minSpeed + Math.random() * (maxSpeed - minSpeed), distance: 0 };
+        setStar(s);
+        setTimeout(() => setStar(null), Math.max(window.innerWidth, window.innerHeight) / s.speed * 50);
+      };
+      const schedule = (): ReturnType<typeof setTimeout> => setTimeout(() => { create(); ref.current = schedule(); }, minDelay + Math.random() * (maxDelay - minDelay));
+      const ref: { current: ReturnType<typeof setTimeout> | null } = { current: null };
+      create(); ref.current = schedule();
+      return () => { if (ref.current) clearTimeout(ref.current); };
+    }, [minSpeed, maxSpeed, minDelay, maxDelay, getRandomStart]);
+    useEffect(() => {
+      if (!star) return;
+      let raf: number;
+      const move = () => {
+        setStar(p => {
+          if (!p) return null;
+          const rad = (p.angle * Math.PI) / 180;
+          const d = p.distance + p.speed * 0.5;
+          if (d > Math.max(window.innerWidth, window.innerHeight)) return null;
+          return { ...p, x: p.x + Math.cos(rad) * p.speed * 0.5, y: p.y + Math.sin(rad) * p.speed * 0.5, distance: d };
+        });
+        raf = requestAnimationFrame(move);
+      };
       raf = requestAnimationFrame(move);
-    };
-    raf = requestAnimationFrame(move);
-    return () => cancelAnimationFrame(raf);
-  }, [star?.id]);
-  return (
-    <svg ref={svgRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
-      {star && <rect x={star.x} y={star.y} width={starWidth * star.scale} height={starHeight} fill="url(#star-gradient)" transform={`rotate(${star.angle}, ${star.x + (starWidth * star.scale) / 2}, ${star.y + starHeight / 2})`} />}
-      <defs><linearGradient id="star-gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style={{ stopColor: trailColor, stopOpacity: 0 }} /><stop offset="100%" style={{ stopColor: starColor, stopOpacity: 1 }} /></linearGradient></defs>
-    </svg>
-  );
-};
+      return () => cancelAnimationFrame(raf);
+    }, [star?.id]);
+    return (
+      <svg ref={svgRef} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
+        {star && <rect x={star.x} y={star.y} width={starWidth * star.scale} height={starHeight} fill="url(#star-gradient)" transform={`rotate(${star.angle}, ${star.x + (starWidth * star.scale) / 2}, ${star.y + starHeight / 2})`} />}
+        <defs><linearGradient id="star-gradient" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" style={{ stopColor: trailColor, stopOpacity: 0 }} /><stop offset="100%" style={{ stopColor: starColor, stopOpacity: 1 }} /></linearGradient></defs>
+      </svg>
+    );
+  };
 
 export const Hero: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -128,20 +128,20 @@ export const Hero: React.FC = () => {
 
       {/* Shooting stars — dark mode only */}
       {isDark && (
-          <ShootingStars
-            minSpeed={12}
-            maxSpeed={28}
-            minDelay={1800}
-            maxDelay={4500}
-            starColor="#a3b59e"
-            trailColor="#4a6741"
-          />
+        <ShootingStars
+          minSpeed={12}
+          maxSpeed={28}
+          minDelay={1800}
+          maxDelay={4500}
+          starColor="#a3b59e"
+          trailColor="#4a6741"
+        />
       )}
 
       {/* Desktop Floating activation function badges */}
       <div className="desktop-only-badges">
         <motion.div
-          animate={{ 
+          animate={{
             y: [-12, 12, -12],
             rotate: [0, 5, 0]
           }}
@@ -166,7 +166,7 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         <motion.div
-          animate={{ 
+          animate={{
             y: [12, -12, 12],
             rotate: [0, -4, 0]
           }}
@@ -191,7 +191,7 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         <motion.div
-          animate={{ 
+          animate={{
             y: [-10, 10, -10],
             rotate: [0, 3, 0]
           }}
@@ -216,7 +216,7 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         <motion.div
-          animate={{ 
+          animate={{
             y: [8, -8, 8],
             rotate: [0, -3, 0]
           }}
@@ -244,14 +244,14 @@ export const Hero: React.FC = () => {
       {/* Mobile Floating activation function badges */}
       <div className="mobile-only-badges">
         <motion.div
-          animate={{ 
+          animate={{
             y: [-12, 12, -12],
             rotate: [0, 5, 0]
           }}
           transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
           style={{
             position: 'absolute',
-            top: '18%',
+            top: '24%',
             left: '6%',
             background: 'var(--card-bg)',
             border: '1px solid var(--card-border)',
@@ -269,14 +269,14 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         <motion.div
-          animate={{ 
+          animate={{
             y: [12, -12, 12],
             rotate: [0, -4, 0]
           }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           style={{
             position: 'absolute',
-            top: '18%',
+            top: '24%',
             right: '6%',
             background: 'var(--card-bg)',
             border: '1px solid var(--card-border)',
@@ -294,14 +294,14 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         <motion.div
-          animate={{ 
+          animate={{
             y: [-10, 10, -10],
             rotate: [0, 3, 0]
           }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
           style={{
             position: 'absolute',
-            bottom: '12%',
+            bottom: '16%',
             left: '6%',
             background: 'var(--card-bg)',
             border: '1px solid var(--card-border)',
@@ -319,14 +319,14 @@ export const Hero: React.FC = () => {
         </motion.div>
 
         <motion.div
-          animate={{ 
+          animate={{
             y: [8, -8, 8],
             rotate: [0, -3, 0]
           }}
           transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 2 }}
           style={{
             position: 'absolute',
-            bottom: '12%',
+            bottom: '16%',
             right: '6%',
             background: 'var(--card-bg)',
             border: '1px solid var(--card-border)',
@@ -346,30 +346,30 @@ export const Hero: React.FC = () => {
 
       {/* Hero Header Wrapper */}
       <div style={{ zIndex: 5, padding: '0 1rem' }}>
-        <h1 
+        <h1
           className="hero-title"
-          style={{ 
-            fontSize: 'clamp(2.75rem, 7vw, 4.5rem)', 
-            fontWeight: 900, 
-            color: 'var(--text-primary)', 
+          style={{
+            fontSize: 'clamp(2.75rem, 7vw, 4.5rem)',
+            fontWeight: 900,
+            color: 'var(--text-primary)',
             letterSpacing: '-0.04em',
             lineHeight: 1.05,
             marginBottom: '1rem'
           }}
         >
           <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>
-            <BlurText 
-              text="Sai Nandu " 
-              delay={40} 
-              animateBy="letters" 
+            <BlurText
+              text="Sai Nandu "
+              delay={40}
+              animateBy="letters"
               style={{ color: 'var(--text-primary)' }}
             />
           </span>
           <span className="hero-name-second-line">
-            <BlurText 
-              text="Vajhala" 
-              delay={40} 
-              animateBy="letters" 
+            <BlurText
+              text="Vajhala"
+              delay={40}
+              animateBy="letters"
               style={{ color: 'var(--text-primary)' }}
             />
           </span>
@@ -380,9 +380,9 @@ export const Hero: React.FC = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.55, duration: 0.5 }}
-          style={{ 
-            fontFamily: 'var(--font-mono)', 
-            fontSize: 'clamp(0.72rem, 2.5vw, 0.8rem)', 
+          style={{
+            fontFamily: 'var(--font-mono)',
+            fontSize: 'clamp(0.72rem, 2.5vw, 0.8rem)',
             color: 'var(--accent)',
             fontWeight: 600,
             letterSpacing: '0.2em',
@@ -473,11 +473,11 @@ export const Hero: React.FC = () => {
         }}
         whileHover={{ scale: 1.05, color: 'var(--accent)', opacity: 1 }}
       >
-        <div 
-          style={{ 
-            width: '18px', 
-            height: '28px', 
-            borderRadius: '9px', 
+        <div
+          style={{
+            width: '18px',
+            height: '28px',
+            borderRadius: '9px',
             border: '1.5px solid var(--text-muted)',
             position: 'relative',
             display: 'flex',
@@ -485,15 +485,15 @@ export const Hero: React.FC = () => {
             paddingTop: '4px'
           }}
         >
-          <motion.div 
+          <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
-            style={{ 
-              width: '3px', 
-              height: '5px', 
-              borderRadius: '1px', 
+            style={{
+              width: '3px',
+              height: '5px',
+              borderRadius: '1px',
               backgroundColor: 'var(--text-muted)'
-            }} 
+            }}
           />
         </div>
         scroll.explore()
