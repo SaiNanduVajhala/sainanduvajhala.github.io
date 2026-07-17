@@ -27,7 +27,7 @@
   --accent-rgb: 107, 143, 101;
   --glow-color: rgba(107, 143, 101, 0.06);
   --border-light: rgba(42, 37, 32, 0.06);
-  --navbar-bg: rgba(248, 243, 232, 0.45);
+  --navbar-bg: rgba(255, 255, 255, 0.35);
   --navbar-border: rgba(107, 143, 101, 0.22);
   --navbar-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.85), inset 0 -1px 0 0 rgba(107, 143, 101, 0.05);
 }
@@ -48,7 +48,7 @@
   --accent-rgb: 156, 163, 122;
   --glow-color: rgba(156, 163, 122, 0.04);
   --border-light: rgba(229, 225, 219, 0.04);
-  --navbar-bg: rgba(17, 17, 16, 0.5);
+  --navbar-bg: rgba(17, 17, 16, 0.35);
   --navbar-border: rgba(156, 163, 122, 0.22);
   --navbar-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.16), inset 0 -1px 0 0 rgba(0, 0, 0, 0.35);
 }
