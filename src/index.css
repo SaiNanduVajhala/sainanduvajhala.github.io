@@ -148,7 +148,6 @@ section {
   height: 3.5rem;
   border-radius: 9999px;
   box-shadow: 0 4px 20px -2px var(--glow-color);
-  overflow: hidden;
 }
 
 .navbar-open {
@@ -160,6 +159,7 @@ section {
   inset: 0;
   z-index: -1;
   border-radius: inherit;
+  overflow: hidden;
   background: var(--navbar-bg);
   backdrop-filter: blur(24px) saturate(140%);
   -webkit-backdrop-filter: blur(24px) saturate(140%);
