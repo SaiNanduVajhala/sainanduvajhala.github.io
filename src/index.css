@@ -16,6 +16,7 @@
   --background: #f8f3e8;
   --foreground: #2a2520;
   --card-bg: rgba(255, 252, 245, 0.5); /* Higher transparency for glassmorphism */
+  --nav-bg: rgba(248, 243, 232, 0.82); /* Semi-opaque fallback for navbar */
   --card-border: #e2dcd0;
   --card-hover-border: #b5ad9e;
   --text-primary: #2a2520;
@@ -34,6 +35,7 @@
   --background: #111110;
   --foreground: #e5e1db;
   --card-bg: rgba(20, 20, 19, 0.55); /* Higher transparency for glassmorphism */
+  --nav-bg: rgba(17, 17, 16, 0.85);  /* Semi-opaque fallback for navbar */
   --card-border: #262524;
   --card-hover-border: #3d3b39;
   --text-primary: #e5e1db;
@@ -138,7 +140,7 @@ section {
   z-index: 50;
   height: 3.5rem;
   border-radius: 9999px;
-  background: var(--card-bg);
+  background: var(--nav-bg);
   backdrop-filter: blur(28px); /* High blur completely diffuses elements behind it */
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--card-border);
