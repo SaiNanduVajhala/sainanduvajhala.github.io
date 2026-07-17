@@ -107,6 +107,20 @@ body {
   max-width: 1000px;
   margin: 0 auto;
   padding: 0 1.5rem;
+  
+  /* Modern CSS mask to fade out scroll content before it passes the floating navbar */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent calc(0.5rem + env(safe-area-inset-top, 0px)),
+    black calc(5.5rem + env(safe-area-inset-top, 0px))
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent calc(0.5rem + env(safe-area-inset-top, 0px)),
+    black calc(5.5rem + env(safe-area-inset-top, 0px))
+  );
 }
 
 section {
