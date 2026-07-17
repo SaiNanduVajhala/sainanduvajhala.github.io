@@ -105,8 +105,7 @@ export const Hero: React.FC = () => {
         overflow: 'hidden',
         textAlign: 'center',
         padding: '6.5rem 1rem 3rem',
-        boxSizing: 'border-box',
-        zIndex: 1
+        boxSizing: 'border-box'
       }}
     >
       {/* Subtle ambient glow following the mouse, highly aesthetic & lightweight */}
@@ -241,109 +240,6 @@ export const Hero: React.FC = () => {
         </motion.div>
       </div>
 
-      {/* Mobile Floating activation function badges */}
-      <div className="mobile-only-badges">
-        <motion.div
-          animate={{
-            y: [-12, 12, -12],
-            rotate: [0, 5, 0]
-          }}
-          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-          style={{
-            position: 'absolute',
-            top: '24%',
-            left: '6%',
-            background: 'var(--card-bg)',
-            border: '1px solid var(--card-border)',
-            borderRadius: '8px',
-            padding: '0.25rem 0.45rem',
-            fontSize: '0.55rem',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--accent)',
-            opacity: 0.8,
-            pointerEvents: 'none'
-          }}
-          className="hero-floating-badge"
-        >
-          ReLU(x) = max(0, x)
-        </motion.div>
-
-        <motion.div
-          animate={{
-            y: [12, -12, 12],
-            rotate: [0, -4, 0]
-          }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          style={{
-            position: 'absolute',
-            top: '24%',
-            right: '6%',
-            background: 'var(--card-bg)',
-            border: '1px solid var(--card-border)',
-            borderRadius: '8px',
-            padding: '0.25rem 0.45rem',
-            fontSize: '0.55rem',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--accent)',
-            opacity: 0.8,
-            pointerEvents: 'none'
-          }}
-          className="hero-floating-badge"
-        >
-          Softmax(zᵢ) = eᶻⁱ / Σeᶻʲ
-        </motion.div>
-
-        <motion.div
-          animate={{
-            y: [-10, 10, -10],
-            rotate: [0, 3, 0]
-          }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-          style={{
-            position: 'absolute',
-            bottom: '16%',
-            left: '6%',
-            background: 'var(--card-bg)',
-            border: '1px solid var(--card-border)',
-            borderRadius: '8px',
-            padding: '0.25rem 0.45rem',
-            fontSize: '0.55rem',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--accent)',
-            opacity: 0.8,
-            pointerEvents: 'none'
-          }}
-          className="hero-floating-badge"
-        >
-          σ(x) = 1 / (1 + e⁻ˣ)
-        </motion.div>
-
-        <motion.div
-          animate={{
-            y: [8, -8, 8],
-            rotate: [0, -3, 0]
-          }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-          style={{
-            position: 'absolute',
-            bottom: '16%',
-            right: '6%',
-            background: 'var(--card-bg)',
-            border: '1px solid var(--card-border)',
-            borderRadius: '8px',
-            padding: '0.25rem 0.45rem',
-            fontSize: '0.55rem',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--accent)',
-            opacity: 0.8,
-            pointerEvents: 'none'
-          }}
-          className="hero-floating-badge"
-        >
-          tanh(x) = (eˣ - e⁻ˣ) / (eˣ + e⁻ˣ)
-        </motion.div>
-      </div>
-
       {/* Hero Header Wrapper */}
       <div style={{ zIndex: 5, padding: '0 1rem' }}>
         <h1
@@ -407,7 +303,7 @@ export const Hero: React.FC = () => {
             fontWeight: 400
           }}
         >
-          Specializing in building deep learning models, low-latency audio assistants, and graph-based cognitive memory loops for autonomous agents.
+          Building deep learning models, low-latency audio assistants, and graph-based cognitive memory loops for autonomous agents.
         </motion.p>
 
         {/* Action Button */}
