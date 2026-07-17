@@ -662,3 +662,21 @@ section {
     border-color: var(--accent-secondary) !important;
   }
 }
+
+/* High-Fidelity Glassmorphic Floating Cards */
+.hero-floating-badge {
+  background: var(--navbar-bg) !important;
+  border: 1px solid var(--navbar-border) !important;
+  box-shadow: var(--navbar-highlight) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  opacity: 1 !important;
+  transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+@media (hover: hover) {
+  .hero-floating-badge:hover {
+    border-color: var(--accent) !important;
+    box-shadow: 0 4px 15px -3px var(--glow-color), var(--navbar-highlight) !important;
+  }
+}
