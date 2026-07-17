@@ -160,6 +160,7 @@ function App() {
         }}
         className={`navbar ${isMenuOpen ? 'navbar-open' : ''}`}
       >
+        <div className="navbar-glass-bg" />
         <div className="nav-content">
           <a href="#" className="logo" style={{ textTransform: 'lowercase' }}>
             sn.dev<span className="logo-dot" />
