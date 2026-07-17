@@ -165,8 +165,8 @@ section {
   border-radius: inherit;
   overflow: hidden;
   background: var(--navbar-bg);
-  backdrop-filter: blur(24px) saturate(140%);
   -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
   border: 1px solid var(--navbar-border);
   box-shadow: var(--navbar-highlight);
   transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
@@ -176,8 +176,8 @@ section {
 
 .navbar-open .navbar-glass-bg {
   background: var(--navbar-open-bg);
-  backdrop-filter: blur(24px) saturate(140%);
   -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
 }
 
 .nav-content {
@@ -439,8 +439,8 @@ section {
 /* Glassmorphism Cards - Shadcn UI Minimalist Style */
 .glass-panel {
   background: var(--card-bg);
-  backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--card-border);
   border-radius: 12px;
   transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
@@ -691,8 +691,8 @@ section {
   background: var(--navbar-bg) !important;
   border: 1px solid var(--navbar-border) !important;
   box-shadow: var(--navbar-highlight) !important;
-  backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
+  backdrop-filter: blur(12px) !important;
   opacity: 1 !important;
   transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
