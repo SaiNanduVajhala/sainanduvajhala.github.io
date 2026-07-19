@@ -125,7 +125,7 @@ export const Timeline: React.FC = () => {
               {/* Text info */}
               <div className="timeline-info" style={{ paddingLeft: '2.25rem' }}>
                 <div className="timeline-date">{entry.date}</div>
-                <h4 className="timeline-title">{entry.title}</h4>
+                <h3 className="timeline-title">{entry.title}</h3>
                 <div className="timeline-subtitle">{entry.subtitle}</div>
                 <ul style={{ listStyle: 'none', fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.4rem', lineHeight: '1.5' }}>
                   {entry.details.map((detail, dIdx) => (

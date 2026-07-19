@@ -23,7 +23,7 @@
   --text-muted: #8f867a;
   --accent: #6b8f65;            /* Pastel Green */
   --accent-secondary: #8fae88;  /* Lighter Pastel Green */
-  --accent-foreground: #ffffff; /* White text for contrast */
+  --accent-foreground: #121e11; /* Dark pine green for accessible contrast */
   --accent-rgb: 107, 143, 101;
   --glow-color: rgba(107, 143, 101, 0.06);
   --border-light: rgba(42, 37, 32, 0.06);
