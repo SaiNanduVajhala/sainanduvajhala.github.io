@@ -102,7 +102,6 @@ export const Hero: React.FC = () => {
         alignItems: 'center',
         justifyContent: 'center',
         position: 'relative',
-        overflow: 'hidden',
         textAlign: 'center',
         padding: '6.5rem 1rem 3rem',
         boxSizing: 'border-box'
