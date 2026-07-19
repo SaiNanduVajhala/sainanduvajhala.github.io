@@ -286,7 +286,7 @@ export const Hero: React.FC = () => {
             marginBottom: '1.25rem'
           }}
         >
-          [ AI & Machine Learning Engineer ]
+          [AI & Machine Learning Engineer]
         </motion.div>
 
         {/* Intro statement to fill blank space */}
