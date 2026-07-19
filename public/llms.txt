@@ -1,27 +1,42 @@
 # Sai Nandu Vajhala
 
-AI & Machine Learning Engineer specializing in deep learning models, low-latency audio assistants, and graph-based cognitive memory loops.
+> AI & Machine Learning Engineer from Hyderabad, India.
 
-## Profile & Contact
-- **Website:** https://sainandu.is-a.dev/
+## Summary
+Sai Nandu Vajhala is an AI & Machine Learning Engineer specializing in deep learning models, low-latency audio assistants, graph-based cognitive memory loops, and agentic AI systems. He builds production-grade AI systems using PyTorch, LangChain, LlamaIndex, and vector databases.
+
+## Contact & Profiles
+- **Portfolio:** https://sainandu.is-a.dev/
 - **GitHub:** https://github.com/SaiNanduVajhala
 - **LinkedIn:** https://linkedin.com/in/vajhala-sai-nandu
 - **Kaggle:** https://kaggle.com/vajhalasainandu
 - **Email:** vajhalasainandu@gmail.com
+- **Location:** Hyderabad, India
 
-## Technical Specializations
-- **Deep Learning:** PyTorch, TensorFlow, custom model design and training (convolutions, attention mechanisms, embeddings).
-- **LLMs & Agentic Frameworks:** LangChain, LlamaIndex, vector DB databases, agent orchestration.
-- **Cognitive Systems:** Graph-based memory OS databases, LangChain vector storage, cognee cloud structures.
-- **Languages & Utilities:** Python, TypeScript, SQL, Git, Linux.
+## Technical Skills
+- **Deep Learning:** PyTorch, TensorFlow, custom model architectures, CNNs, RNNs, Transformers, attention mechanisms, embeddings
+- **LLMs & Agentic AI:** LangChain, LlamaIndex, vector databases, RAG pipelines, agent orchestration, prompt engineering
+- **Cognitive Systems:** Graph-based memory architectures, knowledge graphs, cognee, context-retaining autonomous agents
+- **Audio & Speech:** Low-latency voice activity detection (VAD), real-time audio streaming, conversational AI
+- **Computer Vision:** Image classification, object detection, segmentation
+- **Languages:** Python, TypeScript, SQL, C++
+- **Tools:** Git, Linux, Docker, Vite, React
 
-## Core Projects
-### Oneiros
-Cognitive Memory OS for AI Agents. Built a memory OS utilizing graph database structure loops, LangChain, and custom vector embeddings to power context-retaining autonomous agents.
+## Key Projects
+
+### Oneiros — Cognitive Memory OS for AI Agents
+A memory operating system built on graph database structures, LangChain, and custom vector embeddings that enables autonomous AI agents to retain, recall, and reason over long-term context across conversations and tasks.
 
 ### Low-Latency Audio Assistant
-Real-time conversational AI voice assistant. Optimized audio stream loops, custom Voice Activity Detection (VAD), and API pathways to achieve sub-250ms low-latency conversation responses.
+A real-time conversational AI voice assistant optimized for sub-250ms response latency. Features custom Voice Activity Detection (VAD), streaming audio pipelines, and efficient API routing for natural, fluid conversations.
 
-## Timeline & Milestones
-- **Present:** Independent AI Research & System Engineering. Developing context-retaining agentic loops and optimizing audio models.
-- **Competitions:** Active Kaggle Competitions contributor specializing in computer vision and natural language processing tasks.
+## Education
+- **B.Tech in Computer Science** — Specializing in AI & Machine Learning
+- Active competitor on Kaggle in computer vision and NLP challenges
+
+## What Sai Nandu Vajhala is known for
+- Building production-grade cognitive memory systems for AI agents
+- Optimizing real-time audio AI pipelines for ultra-low latency
+- Deep expertise in PyTorch model design and training
+- Graph-based knowledge representation for agentic AI
+- Competitive machine learning on Kaggle
