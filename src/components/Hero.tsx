@@ -285,7 +285,8 @@ export const Hero: React.FC = () => {
             marginBottom: '1.25rem'
           }}
         >
-          [AI & Machine Learning Engineer]
+          <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>[AI & Machine Learning</span>{' '}
+          <span style={{ display: 'inline-block', whiteSpace: 'nowrap' }}>Engineer]</span>
         </motion.div>
 
         {/* Intro statement to fill blank space */}

@@ -16,7 +16,9 @@ import {
   UserIcon,
   LayersIcon,
   HistoryIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  CopyIcon,
+  CheckIcon
 } from './components/Icons';
 
 function App() {
@@ -92,27 +94,27 @@ function App() {
   };
 
   const menuItems = [
-    { 
-      label: '.about()', 
-      desc: 'AI/ML specialization & credentials', 
+    {
+      label: '.about()',
+      desc: 'AI/ML specialization & credentials',
       href: '#about',
       icon: <UserIcon size={16} />
     },
-    { 
-      label: '.systems()', 
-      desc: 'Deep learning models & custom agents', 
+    {
+      label: '.systems()',
+      desc: 'Deep learning models & custom agents',
       href: '#systems',
       icon: <LayersIcon size={16} />
     },
-    { 
-      label: '.chronology()', 
-      desc: 'Timeline of milestones & education', 
+    {
+      label: '.chronology()',
+      desc: 'Timeline of milestones & education',
       href: '#chronology',
       icon: <HistoryIcon size={16} />
     },
-    { 
-      label: '.contactme()', 
-      desc: 'Get in touch for collaborations', 
+    {
+      label: '.contactme()',
+      desc: 'Get in touch for collaborations',
       href: '#contact',
       icon: <MailIcon size={16} />
     }
@@ -275,6 +277,26 @@ function App() {
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
             Have a project in mind, an opportunity, or just want to discuss deep learning? Drop me a line.
           </p>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
+            <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
+              vajhalasainandu@gmail.com
+            </span>
+            <button
+              onClick={handleContactClick}
+              title="Copy to clipboard"
+              style={{
+                borderRadius: '6px',
+                padding: '4px 6px',
+                cursor: 'pointer',
+                display: 'inline-flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+              className="copy-btn"
+            >
+              {copied ? <CheckIcon /> : <CopyIcon size={12} />}
+            </button>
+          </div>
           <a
             href="https://mail.google.com/mail/?view=cm&fs=1&to=vajhalasainandu@gmail.com"
             target="_blank"

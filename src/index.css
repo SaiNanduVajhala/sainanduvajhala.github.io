@@ -403,7 +403,8 @@ section {
   }
 
   .card-nav-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
   }
   
   /* Revert mobile layout of CardNav items to previous clean style */
@@ -415,7 +416,7 @@ section {
   .card-nav-item {
     display: block;
     min-height: auto;
-    padding: 1.1rem;
+    padding: 0.85rem;
     border-radius: 12px;
   }
   
@@ -695,4 +696,23 @@ section {
     border-color: var(--accent) !important;
     box-shadow: 0 4px 15px -3px var(--glow-color), var(--navbar-highlight) !important;
   }
+}
+
+.copy-btn {
+  background: rgba(var(--accent-rgb), 0.05);
+  border: 1px solid var(--navbar-border);
+  color: var(--accent);
+  transition: all 0.2s ease;
+}
+
+@media (hover: hover) {
+  .copy-btn:hover {
+    background: rgba(var(--accent-rgb), 0.15) !important;
+    border-color: var(--accent) !important;
+    transform: scale(1.05);
+  }
+}
+
+.copy-btn:active {
+  transform: scale(0.95);
 }
