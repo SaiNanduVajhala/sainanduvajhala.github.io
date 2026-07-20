@@ -31,6 +31,16 @@ function App() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleContactClick = () => {
     navigator.clipboard.writeText('vajhalasainandu@gmail.com');
@@ -146,8 +156,10 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Dynamic Click Spark emitter from React Bits */}
-      <ClickSpark sparkColor={theme === 'dark' ? '#a3b59e' : '#788a73'} sparkSize={10} sparkCount={10} sparkSpeed={3} />
+      {/* Dynamic Click Spark emitter from React Bits — Desktop only to prevent mobile lag */}
+      {!isMobile && (
+        <ClickSpark sparkColor={theme === 'dark' ? '#a3b59e' : '#788a73'} sparkSize={10} sparkCount={10} sparkSpeed={3} />
+      )}
 
       {/* Floating Capsule Header (Card Nav style) */}
       <header
@@ -178,19 +190,19 @@ function App() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.18 }}
+              transition={{ duration: 0.15 }}
               className="card-nav-dropdown-content"
             >
               <motion.div
-                variants={staggerContainer}
-                initial="hidden"
-                animate="show"
+                variants={isMobile ? undefined : staggerContainer}
+                initial={isMobile ? undefined : "hidden"}
+                animate={isMobile ? undefined : "show"}
                 className="card-nav-grid"
               >
                 {menuItems.map(item => (
                   <motion.a
                     key={item.label}
-                    variants={staggerItem}
+                    variants={isMobile ? undefined : staggerItem}
                     href={item.href}
                     onClick={(e) => handleScrollTo(e, item.href)}
                     className="card-nav-item"
@@ -208,9 +220,9 @@ function App() {
               </motion.div>
 
               <motion.div
-                variants={staggerItem}
-                initial="hidden"
-                animate="show"
+                variants={isMobile ? undefined : staggerItem}
+                initial={isMobile ? undefined : "hidden"}
+                animate={isMobile ? undefined : "show"}
                 className="card-nav-footer"
                 style={{ justifyContent: 'center' }}
               >
