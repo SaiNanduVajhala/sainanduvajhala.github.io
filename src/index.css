@@ -156,6 +156,7 @@ section {
   border: 1px solid var(--navbar-border);
   box-shadow: var(--navbar-highlight), 0 4px 20px -2px var(--glow-color);
   overflow: hidden;
+  will-change: max-height, border-radius;
   transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
               border-radius 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 0.28s ease,
@@ -400,6 +401,8 @@ section {
 @media (max-width: 768px) {
   .navbar {
     top: calc(1.5rem + env(safe-area-inset-top, 0px)) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+    backdrop-filter: blur(14px) saturate(150%) !important;
   }
 
   .card-nav-grid {

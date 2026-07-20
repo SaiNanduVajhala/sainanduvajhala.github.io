@@ -63,6 +63,7 @@ export const Hero: React.FC = () => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [isMobile, setIsMobile] = useState(true);
 
   useEffect(() => {
     const check = () => setIsDark(document.documentElement.getAttribute('data-theme') === 'dark');
@@ -73,12 +74,22 @@ export const Hero: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  useEffect(() => {
+    if (isMobile) return;
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY });
     };
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
+  }, [isMobile]);
 
   const handleDirectScroll = (e: React.MouseEvent, targetId: string) => {
     e.preventDefault();
@@ -107,25 +118,27 @@ export const Hero: React.FC = () => {
         boxSizing: 'border-box'
       }}
     >
-      {/* Subtle ambient glow following the mouse, highly aesthetic & lightweight */}
-      <div
-        style={{
-          position: 'fixed',
-          width: '500px',
-          height: '500px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, var(--glow-color) 0%, transparent 70%)',
-          top: mousePos.y - 250,
-          left: mousePos.x - 250,
-          pointerEvents: 'none',
-          zIndex: 0,
-          opacity: isHovered ? 0.65 : 0,
-          transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
-        }}
-      />
+      {/* Subtle ambient glow following the mouse, highly aesthetic & lightweight — desktop only */}
+      {!isMobile && (
+        <div
+          style={{
+            position: 'fixed',
+            width: '500px',
+            height: '500px',
+            borderRadius: '50%',
+            background: 'radial-gradient(circle, var(--glow-color) 0%, transparent 70%)',
+            top: mousePos.y - 250,
+            left: mousePos.x - 250,
+            pointerEvents: 'none',
+            zIndex: 0,
+            opacity: isHovered ? 0.65 : 0,
+            transition: 'opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1)'
+          }}
+        />
+      )}
 
-      {/* Shooting stars — dark mode only */}
-      {isDark && (
+      {/* Shooting stars — dark mode and desktop only */}
+      {isDark && !isMobile && (
         <ShootingStars
           minSpeed={12}
           maxSpeed={28}
