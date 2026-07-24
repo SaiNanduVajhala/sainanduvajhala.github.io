@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { SpotlightCard } from './SpotlightCard';
 
 import { 
@@ -10,7 +10,7 @@ import {
   CheckIcon 
 } from './Icons';
 
-export const BentoGrid: React.FC = () => {
+export const BentoGrid: React.FC = memo(() => {
   return (
     <div className="bento-grid">
       {/* Bio / Position Statement */}
@@ -131,4 +131,6 @@ export const BentoGrid: React.FC = () => {
       </SpotlightCard>
     </div>
   );
-};
+});
+
+BentoGrid.displayName = 'BentoGrid';

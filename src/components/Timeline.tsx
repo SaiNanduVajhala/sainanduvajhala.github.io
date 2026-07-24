@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BriefcaseIcon, TrophyIcon, GraduationCapIcon, BulletIcon } from './Icons';
 
@@ -59,7 +59,7 @@ const timelineData: TimelineEntry[] = [
   }
 ];
 
-export const Timeline: React.FC = () => {
+export const Timeline: React.FC = memo(() => {
   const [filter, setFilter] = useState<'all' | 'work' | 'hackathon' | 'education'>('all');
 
   const filteredEntries = timelineData.filter(entry => filter === 'all' || entry.type === filter);
@@ -142,5 +142,7 @@ export const Timeline: React.FC = () => {
       </div>
     </div>
   );
-};
+});
+
+Timeline.displayName = 'Timeline';
 export default Timeline;

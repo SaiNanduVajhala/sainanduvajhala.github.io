@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { SpotlightCard } from './SpotlightCard';
 import { BorderBeam } from './BorderBeam';
@@ -162,7 +162,7 @@ const ChevronDownIcon = ({ isOpen }: { isOpen: boolean }) => (
   </svg>
 );
 
-export const Carousel: React.FC = () => {
+export const Carousel: React.FC = memo(() => {
   const [[currentIndex, direction], setPage] = useState<[number, number]>([0, 0]);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
 
@@ -457,4 +457,6 @@ export const Carousel: React.FC = () => {
       </AnimatePresence>
     </div>
   );
-};
+});
+
+Carousel.displayName = 'Carousel';

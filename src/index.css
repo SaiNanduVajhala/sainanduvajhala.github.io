@@ -27,11 +27,11 @@
   --accent-rgb: 107, 143, 101;
   --glow-color: rgba(107, 143, 101, 0.06);
   --border-light: rgba(42, 37, 32, 0.06);
-  --navbar-bg: rgba(255, 255, 255, 0.16);
-  --navbar-border: rgba(107, 143, 101, 0.15);
-  --navbar-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.6), inset 0 -1px 0 0 rgba(107, 143, 101, 0.02);
-  --navbar-open-bg: rgba(255, 255, 255, 0.16);
-  --navbar-bg-image: linear-gradient(135deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  --navbar-bg: rgba(255, 255, 255, 0.22);
+  --navbar-border: rgba(255, 255, 255, 0.45);
+  --navbar-highlight: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.85), inset 0 -1.5px 2px 0 rgba(107, 143, 101, 0.12), inset 0 0 15px 0 rgba(255, 255, 255, 0.4), 0 8px 32px 0 rgba(107, 143, 101, 0.08);
+  --navbar-open-bg: rgba(255, 255, 255, 0.22);
+  --navbar-bg-image: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.06) 40%, rgba(255, 255, 255, 0.20) 100%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
 }
 
 /* Dark Theme (Rich Charcoal + Olive Green) */
@@ -50,11 +50,11 @@
   --accent-rgb: 156, 163, 122;
   --glow-color: rgba(156, 163, 122, 0.04);
   --border-light: rgba(229, 225, 219, 0.04);
-  --navbar-bg: rgba(17, 17, 16, 0.25);
-  --navbar-border: rgba(156, 163, 122, 0.15);
-  --navbar-highlight: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), inset 0 -1px 0 0 rgba(0, 0, 0, 0.20);
-  --navbar-open-bg: rgba(17, 17, 16, 0.25);
-  --navbar-bg-image: linear-gradient(135deg, rgba(17, 17, 16, 0.25), rgba(17, 17, 16, 0.08)), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  --navbar-bg: rgba(17, 17, 16, 0.32);
+  --navbar-border: rgba(255, 255, 255, 0.18);
+  --navbar-highlight: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.25), inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.5), inset 0 0 15px 0 rgba(156, 163, 122, 0.12), 0 12px 36px 0 rgba(0, 0, 0, 0.45);
+  --navbar-open-bg: rgba(17, 17, 16, 0.32);
+  --navbar-bg-image: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(17, 17, 16, 0.25) 40%, rgba(255, 255, 255, 0.04) 100%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
 }
 
 * {
@@ -162,6 +162,18 @@ section {
               box-shadow 0.28s ease,
               background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
               border-color 0.3s ease;
+}
+
+.navbar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 3%;
+  right: 3%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.75) 30%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0.75) 70%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
 }
 
 .navbar-open {
@@ -394,10 +406,11 @@ section {
 @media (max-width: 768px) {
   .navbar {
     top: calc(1.5rem + env(safe-area-inset-top, 0px)) !important;
-    -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
-    backdrop-filter: blur(14px) saturate(150%) !important;
-    transition: max-height 0.15s cubic-bezier(0.16, 1, 0.3, 1), 
-                border-radius 0.15s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
+    backdrop-filter: blur(10px) saturate(140%) !important;
+    transform: translateZ(0);
+    contain: layout style paint;
+    transition: border-radius 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease !important;
   }
 
   .card-nav-grid {

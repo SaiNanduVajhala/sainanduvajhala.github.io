@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, memo } from 'react';
 import { motion } from 'framer-motion';
 import { BlurText } from './BlurText';
 
@@ -59,7 +59,7 @@ const ShootingStars: React.FC<{
     );
   };
 
-export const Hero: React.FC = () => {
+export const Hero: React.FC = memo(() => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -409,6 +409,8 @@ export const Hero: React.FC = () => {
       </motion.a>
     </section>
   );
-};
+});
+
+Hero.displayName = 'Hero';
 
 export default Hero;
