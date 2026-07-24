@@ -157,11 +157,11 @@ section {
   box-shadow: var(--navbar-highlight), 0 4px 20px -2px var(--glow-color);
   overflow: hidden;
   will-change: max-height, border-radius;
-  transition: max-height 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
-              border-radius 0.28s cubic-bezier(0.16, 1, 0.3, 1), 
-              box-shadow 0.28s ease,
-              background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
-              border-color 0.3s ease;
+  transition: max-height 0.13s cubic-bezier(0, 0, 0.2, 1), 
+              border-radius 0.13s cubic-bezier(0, 0, 0.2, 1), 
+              box-shadow 0.13s ease,
+              background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.2s ease;
 }
 
 .navbar::before {
@@ -410,7 +410,7 @@ section {
     backdrop-filter: blur(10px) saturate(140%) !important;
     transform: translateZ(0);
     contain: layout style paint;
-    transition: border-radius 0.18s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.18s ease !important;
+    transition: max-height 0.13s cubic-bezier(0, 0, 0.2, 1), border-radius 0.13s cubic-bezier(0, 0, 0.2, 1), box-shadow 0.13s ease !important;
   }
 
   .card-nav-grid {

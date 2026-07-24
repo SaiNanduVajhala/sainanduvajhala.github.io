@@ -45,29 +45,26 @@ const menuItems = [
   }
 ];
 
-// Lightweight GPU-accelerated variants (transform & opacity only, 180ms ease)
+// Ultra-fast 120ms GPU-accelerated variants (pure opacity & subtle y-slide)
 const dropdownVariants = {
   hidden: {
     opacity: 0,
-    scaleY: 0.94,
-    y: -8
+    y: -4
   },
   visible: {
     opacity: 1,
-    scaleY: 1,
     y: 0,
     transition: {
-      duration: 0.18,
-      ease: [0.16, 1, 0.3, 1] as const
+      duration: 0.12,
+      ease: [0, 0, 0.2, 1] as const
     }
   },
   exit: {
     opacity: 0,
-    scaleY: 0.96,
-    y: -6,
+    y: -3,
     transition: {
-      duration: 0.14,
-      ease: [0.7, 0, 0.84, 0] as const
+      duration: 0.09,
+      ease: [0.4, 0, 1, 1] as const
     }
   }
 };
