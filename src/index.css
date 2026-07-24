@@ -137,7 +137,8 @@ section {
 }
 
 /* Floating Capsule Navbar */
-.navbar {
+/* Decoupled 3-Layer Mobile Navbar Architecture */
+.navbar-container {
   position: fixed;
   top: calc(0.75rem + env(safe-area-inset-top, 0px));
   left: 0;
@@ -146,8 +147,15 @@ section {
   width: 90%;
   max-width: 900px;
   z-index: 50;
-  height: auto;
-  max-height: 3.5rem;
+  pointer-events: none; /* Pass through clicks outside pill/card */
+}
+
+/* Layer 1: Fixed Capsule Header Pill (Always 3.5rem, Never Resizes) */
+.navbar-top-pill {
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+  height: 3.5rem;
   border-radius: 9999px;
   background: var(--navbar-bg);
   background-image: var(--navbar-bg-image);
@@ -156,14 +164,9 @@ section {
   border: 1px solid var(--navbar-border);
   box-shadow: var(--navbar-highlight), 0 4px 20px -2px var(--glow-color);
   overflow: hidden;
-  will-change: transform, opacity;
-  transition: border-radius 0.16s cubic-bezier(0, 0, 0.2, 1), 
-              box-shadow 0.16s ease,
-              background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-              border-color 0.2s ease;
 }
 
-.navbar::before {
+.navbar-top-pill::before {
   content: '';
   position: absolute;
   top: 0;
@@ -175,14 +178,45 @@ section {
   z-index: 2;
 }
 
-.navbar-open {
-  max-height: 38rem;
-  border-radius: 24px;
+/* Layer 2 & 3: Pre-Mounted Glass Dropdown Card (Compositor Only Animation) */
+.navbar-dropdown-card {
+  pointer-events: auto;
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  border-radius: 20px;
   background: var(--navbar-open-bg);
   background-image: var(--navbar-bg-image);
   -webkit-backdrop-filter: blur(28px) saturate(190%);
   backdrop-filter: blur(28px) saturate(190%);
-  box-shadow: 0 20px 40px -10px var(--glow-color) !important;
+  border: 1px solid var(--navbar-border);
+  box-shadow: var(--navbar-highlight), 0 20px 40px -10px var(--glow-color);
+  padding: 1.25rem;
+  overflow: hidden;
+  z-index: 1;
+  
+  /* GPU Compositor Transition Rules */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-8px) scale(0.97);
+  transform-origin: top center;
+  will-change: transform, opacity;
+  transition: opacity 0.16s cubic-bezier(0, 0, 0.2, 1),
+              transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.16s step-end;
+}
+
+.navbar-dropdown-card.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+  transition: opacity 0.16s cubic-bezier(0, 0, 0.2, 1),
+              transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.16s step-start;
 }
 
 .nav-content {
@@ -403,13 +437,16 @@ section {
 }
 
 @media (max-width: 768px) {
-  .navbar {
+  .navbar-container {
     top: calc(1.5rem + env(safe-area-inset-top, 0px)) !important;
+  }
+
+  .navbar-top-pill,
+  .navbar-dropdown-card {
     -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
     backdrop-filter: blur(10px) saturate(140%) !important;
     transform: translateZ(0);
     contain: layout style paint;
-    transition: border-radius 0.16s cubic-bezier(0, 0, 0.2, 1), box-shadow 0.16s ease !important;
   }
 
   .card-nav-grid {

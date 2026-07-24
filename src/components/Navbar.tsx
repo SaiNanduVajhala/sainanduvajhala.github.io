@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { ThemeToggle } from './ThemeToggle';
 import {
   GithubIcon,
@@ -45,33 +44,6 @@ const menuItems = [
   }
 ];
 
-// 100% Compositor-friendly variants (scaleY + y + opacity, 0.16s ease)
-const dropdownVariants = {
-  hidden: {
-    opacity: 0,
-    scaleY: 0.88,
-    y: -6
-  },
-  visible: {
-    opacity: 1,
-    scaleY: 1,
-    y: 0,
-    transition: {
-      duration: 0.16,
-      ease: [0.16, 1, 0.3, 1] as const
-    }
-  },
-  exit: {
-    opacity: 0,
-    scaleY: 0.92,
-    y: -4,
-    transition: {
-      duration: 0.12,
-      ease: [0.7, 0, 0.84, 0] as const
-    }
-  }
-};
-
 export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -83,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
     if (!isMenuOpen) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      const header = document.querySelector('.navbar');
+      const header = document.querySelector('.navbar-container');
       if (header && !header.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
@@ -110,13 +82,13 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
   }, []);
 
   return (
-    <header className={`navbar ${isMenuOpen ? 'navbar-open' : ''}`}>
-      <div className="nav-content">
+    <header className="navbar-container">
+      {/* Layer 1: Fixed Height Top Capsule Pill (Always 3.5rem, Never Resizes) */}
+      <div className="navbar-top-pill">
         <a href="#" className="logo" style={{ textTransform: 'lowercase' }}>
           sn.dev<span className="logo-dot" />
         </a>
 
-        {/* Unified Controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
           <button
@@ -130,53 +102,42 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
         </div>
       </div>
 
-      {/* Dropdown Menu — GPU-Accelerated Transform & Opacity Animation */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            variants={dropdownVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            style={{ transformOrigin: 'top center', willChange: 'transform, opacity' }}
-            className="card-nav-dropdown-content"
-          >
-            <div className="card-nav-grid">
-              {menuItems.map(item => (
-                <a
-                  key={item.label}
-                  href={item.href}
-                  onClick={(e) => handleScrollTo(e, item.href)}
-                  className="card-nav-item"
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '0.6rem' }}>
-                    <div className="card-nav-icon-wrapper">
-                      {item.icon}
-                    </div>
-                    <ArrowRightIcon size={14} className="card-nav-arrow" />
-                  </div>
-                  <div className="card-nav-item-title">{item.label}</div>
-                  <div className="card-nav-item-desc">{item.desc}</div>
-                </a>
-              ))}
-            </div>
-
-            <div className="card-nav-footer" style={{ justifyContent: 'center' }}>
-              <div style={{ display: 'flex', gap: '1.25rem' }}>
-                <a href="https://github.com/SaiNanduVajhala" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="GitHub">
-                  <GithubIcon size={15} />
-                </a>
-                <a href="https://linkedin.com/in/vajhala-sai-nandu" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="LinkedIn">
-                  <LinkedinIcon size={15} />
-                </a>
-                <a href="mailto:vajhalasainandu@gmail.com" style={{ color: 'var(--text-secondary)' }} aria-label="Email">
-                  <MailIcon size={15} />
-                </a>
+      {/* Layer 2 & 3: Permanently Mounted Glass Dropdown Card (0 Reflows, GPU Compositor Animation) */}
+      <div className={`navbar-dropdown-card ${isMenuOpen ? 'is-open' : ''}`}>
+        <div className="card-nav-grid">
+          {menuItems.map(item => (
+            <a
+              key={item.label}
+              href={item.href}
+              onClick={(e) => handleScrollTo(e, item.href)}
+              className="card-nav-item"
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '0.6rem' }}>
+                <div className="card-nav-icon-wrapper">
+                  {item.icon}
+                </div>
+                <ArrowRightIcon size={14} className="card-nav-arrow" />
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              <div className="card-nav-item-title">{item.label}</div>
+              <div className="card-nav-item-desc">{item.desc}</div>
+            </a>
+          ))}
+        </div>
+
+        <div className="card-nav-footer" style={{ justifyContent: 'center' }}>
+          <div style={{ display: 'flex', gap: '1.25rem' }}>
+            <a href="https://github.com/SaiNanduVajhala" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="GitHub">
+              <GithubIcon size={15} />
+            </a>
+            <a href="https://linkedin.com/in/vajhala-sai-nandu" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="LinkedIn">
+              <LinkedinIcon size={15} />
+            </a>
+            <a href="mailto:vajhalasainandu@gmail.com" style={{ color: 'var(--text-secondary)' }} aria-label="Email">
+              <MailIcon size={15} />
+            </a>
+          </div>
+        </div>
+      </div>
     </header>
   );
 });
