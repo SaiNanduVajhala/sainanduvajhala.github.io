@@ -55,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
     if (!isMenuOpen) return;
 
     const handleClickOutside = (event: MouseEvent) => {
-      const header = document.querySelector('.navbar-container');
+      const header = document.querySelector('.navbar');
       if (header && !header.contains(event.target as Node)) {
         setIsMenuOpen(false);
       }
@@ -82,9 +82,8 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
   }, []);
 
   return (
-    <header className="navbar-container">
-      {/* Layer 1: Fixed Height Top Capsule Pill (Always 3.5rem, Never Resizes) */}
-      <div className="navbar-top-pill">
+    <header className={`navbar ${isMenuOpen ? 'navbar-open' : ''}`}>
+      <div className="nav-content">
         <a href="#" className="logo" style={{ textTransform: 'lowercase' }}>
           sn.dev<span className="logo-dot" />
         </a>
@@ -102,39 +101,41 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
         </div>
       </div>
 
-      {/* Layer 2 & 3: Permanently Mounted Glass Dropdown Card (0 Reflows, GPU Compositor Animation) */}
-      <div className={`navbar-dropdown-card ${isMenuOpen ? 'is-open' : ''}`}>
-        <div className="card-nav-grid">
-          {menuItems.map(item => (
-            <a
-              key={item.label}
-              href={item.href}
-              onClick={(e) => handleScrollTo(e, item.href)}
-              className="card-nav-item"
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '0.6rem' }}>
-                <div className="card-nav-icon-wrapper">
-                  {item.icon}
+      {/* Pre-Mounted Single-Element Liquid Glass Dropdown Wrapper */}
+      <div className={`card-nav-dropdown-wrapper ${isMenuOpen ? 'is-open' : ''}`}>
+        <div className="card-nav-dropdown-inner">
+          <div className="card-nav-grid">
+            {menuItems.map(item => (
+              <a
+                key={item.label}
+                href={item.href}
+                onClick={(e) => handleScrollTo(e, item.href)}
+                className="card-nav-item"
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '0.6rem' }}>
+                  <div className="card-nav-icon-wrapper">
+                    {item.icon}
+                  </div>
+                  <ArrowRightIcon size={14} className="card-nav-arrow" />
                 </div>
-                <ArrowRightIcon size={14} className="card-nav-arrow" />
-              </div>
-              <div className="card-nav-item-title">{item.label}</div>
-              <div className="card-nav-item-desc">{item.desc}</div>
-            </a>
-          ))}
-        </div>
+                <div className="card-nav-item-title">{item.label}</div>
+                <div className="card-nav-item-desc">{item.desc}</div>
+              </a>
+            ))}
+          </div>
 
-        <div className="card-nav-footer" style={{ justifyContent: 'center' }}>
-          <div style={{ display: 'flex', gap: '1.25rem' }}>
-            <a href="https://github.com/SaiNanduVajhala" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="GitHub">
-              <GithubIcon size={15} />
-            </a>
-            <a href="https://linkedin.com/in/vajhala-sai-nandu" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="LinkedIn">
-              <LinkedinIcon size={15} />
-            </a>
-            <a href="mailto:vajhalasainandu@gmail.com" style={{ color: 'var(--text-secondary)' }} aria-label="Email">
-              <MailIcon size={15} />
-            </a>
+          <div className="card-nav-footer" style={{ justifyContent: 'center' }}>
+            <div style={{ display: 'flex', gap: '1.25rem' }}>
+              <a href="https://github.com/SaiNanduVajhala" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="GitHub">
+                <GithubIcon size={15} />
+              </a>
+              <a href="https://linkedin.com/in/vajhala-sai-nandu" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="LinkedIn">
+                <LinkedinIcon size={15} />
+              </a>
+              <a href="mailto:vajhalasainandu@gmail.com" style={{ color: 'var(--text-secondary)' }} aria-label="Email">
+                <MailIcon size={15} />
+              </a>
+            </div>
           </div>
         </div>
       </div>

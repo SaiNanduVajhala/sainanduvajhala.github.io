@@ -27,11 +27,11 @@
   --accent-rgb: 107, 143, 101;
   --glow-color: rgba(107, 143, 101, 0.06);
   --border-light: rgba(42, 37, 32, 0.06);
-  --navbar-bg: rgba(255, 255, 255, 0.22);
-  --navbar-border: rgba(255, 255, 255, 0.45);
-  --navbar-highlight: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.85), inset 0 -1.5px 2px 0 rgba(107, 143, 101, 0.12), inset 0 0 15px 0 rgba(255, 255, 255, 0.4), 0 8px 32px 0 rgba(107, 143, 101, 0.08);
-  --navbar-open-bg: rgba(248, 243, 232, 0.88);
-  --navbar-bg-image: linear-gradient(135deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.06) 40%, rgba(255, 255, 255, 0.20) 100%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  --navbar-bg: rgba(255, 255, 255, 0.45);
+  --navbar-border: rgba(255, 255, 255, 0.75);
+  --navbar-highlight: inset 0 1.5px 2.5px 0 rgba(255, 255, 255, 0.95), inset 0 -1.5px 2px 0 rgba(107, 143, 101, 0.15), inset 0 0 20px 0 rgba(255, 255, 255, 0.4), 0 12px 36px -4px rgba(107, 143, 101, 0.12);
+  --navbar-open-bg: rgba(255, 255, 255, 0.55);
+  --navbar-bg-image: linear-gradient(135deg, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.12) 40%, rgba(255, 255, 255, 0.30) 100%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
 }
 
 /* Dark Theme (Rich Charcoal + Olive Green) */
@@ -50,11 +50,11 @@
   --accent-rgb: 156, 163, 122;
   --glow-color: rgba(156, 163, 122, 0.04);
   --border-light: rgba(229, 225, 219, 0.04);
-  --navbar-bg: rgba(17, 17, 16, 0.32);
-  --navbar-border: rgba(255, 255, 255, 0.18);
-  --navbar-highlight: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.25), inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.5), inset 0 0 15px 0 rgba(156, 163, 122, 0.12), 0 12px 36px 0 rgba(0, 0, 0, 0.45);
-  --navbar-open-bg: rgba(17, 17, 16, 0.88);
-  --navbar-bg-image: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(17, 17, 16, 0.25) 40%, rgba(255, 255, 255, 0.04) 100%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+  --navbar-bg: rgba(22, 22, 21, 0.45);
+  --navbar-border: rgba(255, 255, 255, 0.22);
+  --navbar-highlight: inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.35), inset 0 -1.5px 2px 0 rgba(0, 0, 0, 0.6), inset 0 0 20px 0 rgba(156, 163, 122, 0.15), 0 16px 40px -4px rgba(0, 0, 0, 0.55);
+  --navbar-open-bg: rgba(22, 22, 21, 0.55);
+  --navbar-bg-image: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(17, 17, 16, 0.35) 40%, rgba(255, 255, 255, 0.06) 100%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
 }
 
 * {
@@ -137,8 +137,8 @@ section {
 }
 
 /* Floating Capsule Navbar */
-/* Decoupled 3-Layer Mobile Navbar Architecture */
-.navbar-container {
+/* Single Unified Floating Liquid Glass Navbar */
+.navbar {
   position: fixed;
   top: calc(0.75rem + env(safe-area-inset-top, 0px));
   left: 0;
@@ -147,15 +147,7 @@ section {
   width: 90%;
   max-width: 900px;
   z-index: 50;
-  pointer-events: none; /* Pass through clicks outside pill/card */
-}
-
-/* Layer 1: Fixed Capsule Header Pill (Always 3.5rem, Never Resizes) */
-.navbar-top-pill {
-  pointer-events: auto;
-  position: relative;
-  z-index: 2;
-  height: 3.5rem;
+  height: auto;
   border-radius: 9999px;
   background: var(--navbar-bg);
   background-image: var(--navbar-bg-image);
@@ -164,9 +156,13 @@ section {
   border: 1px solid var(--navbar-border);
   box-shadow: var(--navbar-highlight), 0 4px 20px -2px var(--glow-color);
   overflow: hidden;
+  transition: border-radius 0.22s cubic-bezier(0.16, 1, 0.3, 1), 
+              background-color 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+              border-color 0.25s ease,
+              box-shadow 0.22s ease;
 }
 
-.navbar-top-pill::before {
+.navbar::before {
   content: '';
   position: absolute;
   top: 0;
@@ -178,45 +174,10 @@ section {
   z-index: 2;
 }
 
-/* Layer 2 & 3: Pre-Mounted Glass Dropdown Card (Compositor Only Animation) */
-.navbar-dropdown-card {
-  pointer-events: auto;
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  left: 0;
-  right: 0;
-  margin: 0 auto;
-  border-radius: 20px;
+.navbar-open {
+  border-radius: 24px;
   background: var(--navbar-open-bg);
-  background-image: var(--navbar-bg-image);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid var(--navbar-border);
-  box-shadow: var(--navbar-highlight), 0 20px 40px -10px var(--glow-color);
-  padding: 1.25rem;
-  overflow: hidden;
-  z-index: 1;
-  
-  /* GPU Compositor Transition Rules */
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none;
-  transform: translateY(-8px) scale(0.97);
-  transform-origin: top center;
-  will-change: transform, opacity;
-  transition: opacity 0.16s cubic-bezier(0, 0, 0.2, 1),
-              transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.16s step-end;
-}
-
-.navbar-dropdown-card.is-open {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  transform: translateY(0) scale(1);
-  transition: opacity 0.16s cubic-bezier(0, 0, 0.2, 1),
-              transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.16s step-start;
+  box-shadow: var(--navbar-highlight), 0 20px 40px -10px var(--glow-color) !important;
 }
 
 .nav-content {
@@ -224,10 +185,41 @@ section {
   justify-content: space-between;
   align-items: center;
   height: 3.5rem;
-  /* shorter height for capsule shape */
   padding: 0 1.5rem;
   position: relative;
   z-index: 1;
+}
+
+/* Pre-Mounted Single-Element Grid Wrapper (Zero Reflows, Smooth 60 FPS) */
+.card-nav-dropdown-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: grid-template-rows 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.22s step-end;
+}
+
+.card-nav-dropdown-wrapper.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: grid-template-rows 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.22s step-start;
+}
+
+.card-nav-dropdown-inner {
+  overflow: hidden;
+  padding: 0 1.5rem;
+  transition: padding 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-nav-dropdown-wrapper.is-open .card-nav-dropdown-inner {
+  padding: 0.5rem 1.5rem 1.5rem;
 }
 
 .logo {
@@ -331,8 +323,11 @@ section {
   justify-content: space-between;
   min-height: 130px;
   padding: 1.25rem;
-  background: rgba(var(--accent-rgb), 0.05);
-  border: 1px solid var(--navbar-border);
+  background: rgba(255, 255, 255, 0.45);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.8), 0 4px 12px rgba(0, 0, 0, 0.03);
   border-radius: 16px;
   text-decoration: none;
   text-align: left;
@@ -340,6 +335,12 @@ section {
               border-color 0.25s ease, 
               transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
               box-shadow 0.25s ease;
+}
+
+[data-theme="dark"] .card-nav-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .card-nav-item:hover {
@@ -437,16 +438,11 @@ section {
 }
 
 @media (max-width: 768px) {
-  .navbar-container {
+  .navbar {
     top: calc(1.5rem + env(safe-area-inset-top, 0px)) !important;
-  }
-
-  .navbar-top-pill,
-  .navbar-dropdown-card {
-    -webkit-backdrop-filter: blur(10px) saturate(140%) !important;
-    backdrop-filter: blur(10px) saturate(140%) !important;
+    -webkit-backdrop-filter: blur(14px) saturate(150%) !important;
+    backdrop-filter: blur(14px) saturate(150%) !important;
     transform: translateZ(0);
-    contain: layout style paint;
   }
 
   .card-nav-grid {
