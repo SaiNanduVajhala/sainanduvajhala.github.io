@@ -101,7 +101,6 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
         </div>
       </div>
 
-      {/* Pre-Mounted Single-Element Liquid Glass Dropdown Wrapper */}
       <div className={`card-nav-dropdown-wrapper ${isMenuOpen ? 'is-open' : ''}`}>
         <div className="card-nav-dropdown-inner">
           <div className="card-nav-grid">

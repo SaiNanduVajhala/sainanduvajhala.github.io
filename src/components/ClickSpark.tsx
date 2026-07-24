@@ -10,8 +10,8 @@ interface ClickSparkProps {
 export const ClickSpark: React.FC<ClickSparkProps> = ({
   sparkColor = 'var(--accent)',
   sparkSize = 12,
-  sparkCount = 8,
-  sparkSpeed = 2.5
+  sparkCount = 10,
+  sparkSpeed = 2.8
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,64 +31,21 @@ export const ClickSpark: React.FC<ClickSparkProps> = ({
     }
 
     let sparks: Spark[] = [];
-    let animationFrameId: number | null = null;
+    let animationFrameId: number;
 
     const resizeCanvas = () => {
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
     };
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas, { passive: true });
-
-    const updateAndDraw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      for (let i = sparks.length - 1; i >= 0; i--) {
-        const spark = sparks[i];
-        spark.x += spark.vx;
-        spark.y += spark.vy;
-        
-        spark.vx *= 0.94;
-        spark.vy *= 0.94;
-        spark.alpha -= 0.035;
-
-        if (spark.alpha <= 0) {
-          sparks.splice(i, 1);
-          continue;
-        }
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.moveTo(spark.x, spark.y);
-        ctx.lineTo(spark.x - spark.vx * 2.2, spark.y - spark.vy * 2.2);
-        ctx.strokeStyle = sparkColor;
-        ctx.lineWidth = spark.size * 0.15;
-        ctx.lineCap = 'round';
-        ctx.globalAlpha = Math.max(0, spark.alpha);
-        ctx.stroke();
-        ctx.restore();
-      }
-
-      // ON-DEMAND: Only request next frame if sparks exist!
-      if (sparks.length > 0) {
-        animationFrameId = requestAnimationFrame(updateAndDraw);
-      } else {
-        animationFrameId = null;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-      }
-    };
+    window.addEventListener('resize', resizeCanvas);
 
     const handlePointerDown = (e: PointerEvent) => {
-      // Ignore taps on navigation buttons or hamburger to prevent spark overhead during navbar animation
-      const target = e.target as HTMLElement | null;
-      if (target && target.closest('.navbar, .nav-btn, .card-nav-item, button, a')) {
-        return;
-      }
-
       const x = e.clientX;
       const y = e.clientY;
 
       for (let i = 0; i < sparkCount; i++) {
+        // Generate sparks in a random-angled circle
         const angle = (Math.PI * 2 * i) / sparkCount + (Math.random() - 0.5) * 0.4;
         const speed = Math.random() * sparkSpeed + 1.2;
         sparks.push({
@@ -100,21 +57,50 @@ export const ClickSpark: React.FC<ClickSparkProps> = ({
           size: Math.random() * 3 + sparkSize - 4
         });
       }
-
-      // Start loop on-demand if it's currently idle
-      if (!animationFrameId) {
-        animationFrameId = requestAnimationFrame(updateAndDraw);
-      }
     };
 
-    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
+    window.addEventListener('pointerdown', handlePointerDown);
+
+    const updateAndDraw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = sparks.length - 1; i >= 0; i--) {
+        const spark = sparks[i];
+        spark.x += spark.vx;
+        spark.y += spark.vy;
+
+        // ponytail: slow deceleration and gradual alpha fadeout
+        spark.vx *= 0.95;
+        spark.vy *= 0.95;
+        spark.alpha -= 0.025;
+
+        if (spark.alpha <= 0) {
+          sparks.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(spark.x, spark.y);
+        // Draw path connecting current position with fainted trace
+        ctx.lineTo(spark.x - spark.vx * 2.5, spark.y - spark.vy * 2.5);
+        ctx.strokeStyle = sparkColor;
+        ctx.lineWidth = spark.size * 0.15;
+        ctx.lineCap = 'round';
+        ctx.globalAlpha = spark.alpha;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      animationFrameId = requestAnimationFrame(updateAndDraw);
+    };
+
+    updateAndDraw();
 
     return () => {
       window.removeEventListener('resize', resizeCanvas);
       window.removeEventListener('pointerdown', handlePointerDown);
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-      }
+      cancelAnimationFrame(animationFrameId);
     };
   }, [sparkColor, sparkSize, sparkCount, sparkSpeed]);
 
@@ -126,9 +112,10 @@ export const ClickSpark: React.FC<ClickSparkProps> = ({
         inset: 0,
         width: '100%',
         height: '100%',
-        zIndex: 9999,
-        pointerEvents: 'none'
+        zIndex: 9999, // Render on top of page content to display sparks over elements
+        pointerEvents: 'none' // Direct clicks through the canvas overlay
       }}
     />
   );
 };
+export default ClickSpark;
