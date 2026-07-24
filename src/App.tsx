@@ -15,16 +15,6 @@ function App() {
   });
 
   const [copied, setCopied] = useState(false);
-  const [isMobile, setIsMobile] = useState(true);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || !window.matchMedia('(hover: hover)').matches);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile, { passive: true });
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const handleContactClick = useCallback(() => {
     navigator.clipboard.writeText('vajhalasainandu@gmail.com');
@@ -51,10 +41,8 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Dynamic Click Spark emitter — Desktop only to prevent mobile lag */}
-      {!isMobile && (
-        <ClickSpark sparkColor={theme === 'dark' ? '#a3b59e' : '#788a73'} sparkSize={10} sparkCount={10} sparkSpeed={3} />
-      )}
+      {/* Dynamic Click Spark emitter — Active on both Mobile touch and Desktop clicks */}
+      <ClickSpark sparkColor={theme === 'dark' ? '#a3b59e' : '#788a73'} sparkSize={10} sparkCount={10} sparkSpeed={3} />
 
       {/* Floating Capsule Header (Isolated, Memoized component) */}
       <Navbar theme={theme} toggleTheme={toggleTheme} />
