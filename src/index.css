@@ -760,3 +760,218 @@ section {
 .copy-btn:active {
   transform: scale(0.95);
 }
+
+/* Fullscreen Resume Viewer Modal & Overlay */
+.resume-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem;
+  background: rgba(0, 0, 0, 0.65);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.22s step-end;
+}
+
+.resume-viewer-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.22s step-start;
+}
+
+.resume-viewer-container {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--background);
+  border: 1px solid var(--navbar-border);
+  border-radius: 20px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  transform: translateY(24px) scale(0.97);
+  will-change: transform, opacity;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.resume-viewer-overlay.is-visible .resume-viewer-container {
+  transform: translateY(0) scale(1);
+}
+
+/* Sticky Control Toolbar */
+.resume-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--navbar-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.resume-toolbar-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.resume-toolbar-title {
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.resume-toolbar-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 9999px;
+  background: rgba(var(--accent-rgb), 0.12);
+  color: var(--accent);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  letter-spacing: -0.02em;
+}
+
+.resume-toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.resume-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: rgba(var(--accent-rgb), 0.06);
+  border: 1px solid var(--navbar-border);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.resume-action-btn:hover {
+  background: rgba(var(--accent-rgb), 0.18);
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-1px);
+}
+
+.resume-close-btn {
+  padding: 0.45rem;
+  border-radius: 50%;
+  color: var(--text-secondary);
+}
+
+.resume-close-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 0, 0, 0.12);
+  border-color: rgba(255, 0, 0, 0.3);
+}
+
+/* PDF Viewport & Skeleton Loading */
+.resume-pdf-viewport {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  background: #202020;
+  overflow: hidden;
+}
+
+.resume-pdf-frame {
+  width: 100%;
+  height: 100%;
+  border: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.resume-pdf-frame.is-loaded {
+  opacity: 1;
+}
+
+.resume-skeleton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: var(--background);
+  z-index: 2;
+}
+
+.resume-skeleton-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(var(--accent-rgb), 0.15);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: resumeSpin 0.75s linear infinite;
+}
+
+.resume-skeleton-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+@keyframes resumeSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.resume-fallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 100%;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+@media (max-width: 768px) {
+  .resume-viewer-overlay {
+    padding: 0;
+  }
+  .resume-viewer-container {
+    height: 100vh;
+    height: 100dvh;
+    border-radius: 0;
+    border: none;
+  }
+  .resume-toolbar-badge {
+    display: none;
+  }
+  .resume-btn-text {
+    display: none;
+  }
+  .resume-action-btn {
+    padding: 0.45rem;
+  }
+}

@@ -1,11 +1,14 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef, Suspense } from 'react';
 import { Navbar } from './components/Navbar';
 import { ClickSpark } from './components/ClickSpark';
 import { Hero } from './components/Hero';
 import { BentoGrid } from './components/BentoGrid';
 import { Carousel } from './components/Carousel';
 import { Timeline } from './components/Timeline';
-import { MailIcon, CopyIcon, CheckIcon } from './components/Icons';
+import { MailIcon } from './components/Icons';
+
+// Code-split & Lazy-loaded Resume Viewer Overlay Component
+const ResumeViewer = React.lazy(() => import('./components/ResumeViewer'));
 
 function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
@@ -15,6 +18,20 @@ function App() {
   });
 
   const [copied, setCopied] = useState(false);
+  const [isResumeOpen, setIsResumeOpen] = useState(false);
+  const scrollPosRef = useRef<number>(0);
+
+  const handleOpenResume = useCallback(() => {
+    scrollPosRef.current = window.scrollY;
+    document.body.style.overflow = 'hidden';
+    setIsResumeOpen(true);
+  }, []);
+
+  const handleCloseResume = useCallback(() => {
+    setIsResumeOpen(false);
+    document.body.style.overflow = '';
+    window.scrollTo({ top: scrollPosRef.current });
+  }, []);
 
   const handleContactClick = useCallback(() => {
     navigator.clipboard.writeText('vajhalasainandu@gmail.com');
@@ -41,14 +58,14 @@ function App() {
 
   return (
     <div className="app-container">
-      {/* Dynamic Click Spark emitter — Active on both Mobile touch and Desktop clicks */}
+      {/* Dynamic Click Spark emitter */}
       <ClickSpark sparkColor={theme === 'dark' ? '#a3b59e' : '#788a73'} sparkSize={10} sparkCount={10} sparkSpeed={3} />
 
-      {/* Floating Capsule Header (Isolated, Memoized component) */}
+      {/* Floating Capsule Header */}
       <Navbar theme={theme} toggleTheme={toggleTheme} />
 
       {/* Hero Component */}
-      <Hero />
+      <Hero onOpenResume={handleOpenResume} />
 
       {/* Main Content Layout */}
       <main className="max-width-wrapper" style={{ position: 'relative', zIndex: 10 }}>
@@ -74,49 +91,29 @@ function App() {
           <Carousel />
         </section>
 
-        {/* Experience & Milestones (Timeline) */}
+        {/* Chronology & Milestones (Timeline) */}
         <section id="chronology" style={{ padding: '3rem 0' }}>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>
             .chronology()
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
-            Education milestones, internships, and hackathon results.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+            Timeline of education, key milestones, hackathons, and certifications.
           </p>
           <Timeline />
         </section>
 
         {/* Contact Section */}
-        <section id="contact" style={{ padding: '3rem 0 1rem', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>
+        <section id="contact" style={{ padding: '4rem 0 2rem', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.6rem' }}>
             .contactme()
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-            Have a project in mind, an opportunity, or just want to discuss deep learning? Drop me a line.
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '500px', margin: '0 auto 2rem' }}>
+            Open for AI/ML engineering roles, research collaborations, and cognitive system consulting.
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
-            <span style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', fontFamily: 'var(--font-mono)' }}>
-              vajhalasainandu@gmail.com
-            </span>
-            <button
-              onClick={handleContactClick}
-              title="Copy to clipboard"
-              style={{
-                borderRadius: '6px',
-                padding: '4px 6px',
-                cursor: 'pointer',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-              className="copy-btn"
-              type="button"
-            >
-              {copied ? <CheckIcon /> : <CopyIcon size={12} />}
-            </button>
-          </div>
-          <div>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <a
-              href="https://mail.google.com/mail/?view=cm&fs=1&to=vajhalasainandu@gmail.com"
+              href="mailto:vajhalasainandu@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
               onClick={handleContactClick}
@@ -152,6 +149,13 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Lazy Loaded Fullscreen Resume Viewer Overlay */}
+      {isResumeOpen && (
+        <Suspense fallback={null}>
+          <ResumeViewer onClose={handleCloseResume} />
+        </Suspense>
+      )}
     </div>
   );
 }

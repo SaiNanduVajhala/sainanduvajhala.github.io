@@ -59,7 +59,7 @@ const ShootingStars: React.FC<{
     );
   };
 
-export const Hero: React.FC = memo(() => {
+export const Hero: React.FC<{ onOpenResume?: () => void }> = memo(({ onOpenResume }) => {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -330,10 +330,13 @@ export const Hero: React.FC = memo(() => {
             marginBottom: '1rem'
           }}
         >
-          <a
-            href="https://sainanduvajhala.github.io/resume"
-            target="_blank"
-            rel="noreferrer"
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              if (onOpenResume) {
+                onOpenResume();
+              }
+            }}
             className="btn btn-primary"
             style={{
               padding: '0.6rem 1.6rem',
@@ -344,8 +347,12 @@ export const Hero: React.FC = memo(() => {
               cursor: 'pointer',
               display: 'inline-flex',
               alignItems: 'center',
-              gap: '0.5rem'
+              gap: '0.5rem',
+              border: 'none',
+              background: 'var(--accent)',
+              color: 'var(--accent-foreground)'
             }}
+            type="button"
           >
             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -355,7 +362,7 @@ export const Hero: React.FC = memo(() => {
               <polyline points="10 9 9 9 8 9" />
             </svg>
             view.resume()
-          </a>
+          </button>
         </motion.div>
       </div>
 
