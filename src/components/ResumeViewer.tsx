@@ -72,8 +72,8 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
 
           <div className="resume-toolbar-actions">
             <a
-              href="/resume.pdf"
-              download="Sai_Nandu_Vajhala_Resume.pdf"
+              href="/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
+              download="Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
               className="resume-action-btn"
               title="Download PDF"
             >
@@ -82,7 +82,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
             </a>
 
             <a
-              href="/resume.pdf"
+              href="/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="resume-action-btn"
@@ -115,7 +115,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
 
           {isPdfReady && (
             <object
-              data="/resume.pdf#toolbar=1&navpanes=0"
+              data="/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf#toolbar=1&navpanes=0"
               type="application/pdf"
               className={`resume-pdf-frame ${isLoading ? 'is-loading' : 'is-loaded'}`}
               onLoad={() => setIsLoading(false)}
@@ -123,7 +123,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
               <div className="resume-fallback">
                 <p>Unable to embed PDF directly in browser frame.</p>
                 <a
-                  href="/resume.pdf"
+                  href="/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="resume-action-btn"
