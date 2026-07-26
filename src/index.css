@@ -853,6 +853,33 @@ section {
   gap: 0.5rem;
 }
 
+.resume-zoom-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-right: 0.5rem;
+  background: rgba(var(--accent-rgb), 0.04);
+  border: 1px solid var(--navbar-border);
+  border-radius: 10px;
+  padding: 0.15rem 0.35rem;
+}
+
+.resume-zoom-btn {
+  padding: 0.25rem 0.55rem !important;
+  font-size: 0.9rem !important;
+  font-weight: 700 !important;
+  background: transparent !important;
+  border: none !important;
+}
+
+.resume-zoom-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  min-width: 42px;
+  text-align: center;
+}
+
 .resume-action-btn {
   display: inline-flex;
   align-items: center;
