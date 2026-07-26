@@ -15,6 +15,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [zoomScale, setZoomScale] = useState<number>(1.0);
+  const [pdfDirectUrl, setPdfDirectUrl] = useState<string>('/resume.pdf');
   const overlayRef = useRef<HTMLDivElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const canvasContainerRef = useRef<HTMLDivElement>(null);
@@ -64,12 +65,40 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
         setIsLoading(true);
         setError(null);
 
-        // Fetch arrayBuffer directly to guarantee mobile path resolution & loading
-        const pdfUrl = new URL('/resume.pdf', window.location.origin).href;
-        const res = await fetch(pdfUrl);
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}: Failed to load resume PDF.`);
+        // Robust multi-path resolution to handle root domains, subpaths, and custom domains
+        const targetPaths = [
+          '/resume.pdf',
+          'resume.pdf',
+          '/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf',
+          'Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf'
+        ];
+
+        let res: Response | null = null;
+        let successfulUrl = '';
+
+        for (const path of targetPaths) {
+          try {
+            const urlToFetch = new URL(path, window.location.href).href;
+            const r = await fetch(urlToFetch);
+            if (r.ok) {
+              const contentType = r.headers.get('content-type') || '';
+              // Verify we received actual PDF binary data instead of HTML 404 fallback page
+              if (!contentType.includes('text/html')) {
+                res = r;
+                successfulUrl = urlToFetch;
+                break;
+              }
+            }
+          } catch {
+            // Try next candidate path
+          }
         }
+
+        if (!res) {
+          throw new Error('PDF file could not be fetched from server paths.');
+        }
+
+        setPdfDirectUrl(successfulUrl);
         const data = await res.arrayBuffer();
 
         const loadingTask = pdfjsLib.getDocument({
@@ -77,6 +106,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
           cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/',
           cMapPacked: true
         });
+
         const pdf = await loadingTask.promise;
 
         if (isCancelled || !canvasContainerRef.current) return;
@@ -136,7 +166,8 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
       } catch (err: any) {
         console.error('Failed to render PDF canvas:', err);
         if (!isCancelled) {
-          setError('Unable to load PDF stream directly.');
+          const errMsg = err?.message || String(err) || 'Failed to render PDF canvas.';
+          setError(errMsg);
           setIsLoading(false);
         }
       }
@@ -189,8 +220,8 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
             </div>
 
             <a
-              href="/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
-              download="Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
+              href={pdfDirectUrl}
+              download="Sai_Nandu_Vajhala_Resume.pdf"
               className="resume-action-btn"
               title="Download PDF"
             >
@@ -199,7 +230,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
             </a>
 
             <a
-              href="/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
+              href={pdfDirectUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="resume-action-btn"
@@ -232,9 +263,21 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
 
           {error && (
             <div className="resume-fallback">
-              <p>{error}</p>
+              <p className="resume-fallback-text">{error}</p>
+              <iframe
+                src={`https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(pdfDirectUrl.startsWith('http') ? pdfDirectUrl : window.location.origin + '/resume.pdf')}`}
+                style={{
+                  width: '100%',
+                  height: '350px',
+                  border: '1px solid var(--navbar-border)',
+                  borderRadius: '12px',
+                  marginBottom: '1rem',
+                  background: '#ffffff'
+                }}
+                title="Mobile PDF Viewer"
+              />
               <a
-                href="/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
+                href={pdfDirectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="resume-fallback-btn"
