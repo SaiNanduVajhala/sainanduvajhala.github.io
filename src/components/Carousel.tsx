@@ -49,7 +49,7 @@ const projectsData: Project[] = [
       "Fine-tuned a GPT-2 transformer on the CodeXGLUE dataset (13k+ code samples) to build a robust autocomplete model for software developer codebases.",
       "Achieved a validation loss of 1.19 and a perplexity of 3.28 on held-out validation data."
     ],
-    github: "https://github.com/SaiNanduVajhala/GPT2-Code-Completion",
+    github: "https://github.com/SaiNanduVajhala/code-completion-gpt2",
     details: [
       "Optimized training using Flash Attention and Mixed Precision (FP16) on Kaggle T4 GPUs, reducing training time by ~40% while maintaining numerical stability.",
       "Structured data with custom AST (Abstract Syntax Tree) aware tokens to improve predictive capability on nested logic blocks. Tokenizer was extended with code-specific special tokens for indentation, brackets, and scope delimiters.",
@@ -71,7 +71,7 @@ const projectsData: Project[] = [
       "Architected a full-duplex conversational assistant using FastAPI and WebSockets for low-latency, real-time bi-directional audio/video streaming.",
       "Integrated MediaPipe and DeepFace vision pipelines to analyze user emotion, demographics, and adjust responses dynamically."
     ],
-    github: "https://github.com/SaiNanduVajhala/Emotion-Voice-Assistant",
+    github: "https://github.com/SaiNanduVajhala/Voice_Model_with_full_duplex",
     details: [
       "Developed a custom chunking/buffer queue to stream raw audio chunks directly to Whisper, parallelizing speech-to-text inference with GPT-4o context construction, maintaining response continuity under 600ms end-to-end latency.",
       "MediaPipe face mesh provides 468-point landmark detection at 30fps. DeepFace pipeline classifies 7 emotion categories (angry, disgust, fear, happy, sad, surprise, neutral) in real-time, feeding emotional context into the GPT-4o system prompt.",
@@ -208,10 +208,10 @@ export const Carousel: React.FC = memo(() => {
           <ChevronLeftIcon />
         </button>
 
-        <div style={{ 
-          flex: 1, 
-          display: 'flex', 
-          justifyContent: 'center', 
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
           alignItems: 'center',
           margin: '0 0.75rem',
           minWidth: 0
