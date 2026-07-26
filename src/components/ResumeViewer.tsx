@@ -1,10 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import * as pdfjsLib from 'pdfjs-dist';
-import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?url';
 import { DownloadIcon, ExternalLinkIcon, XIcon } from './Icons';
-
-// Use Vite bundled local worker asset to eliminate CORS and cross-origin worker blocking on mobile
-pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 interface ResumeViewerProps {
   onClose: () => void;
@@ -12,23 +7,15 @@ interface ResumeViewerProps {
 
 export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [zoomScale, setZoomScale] = useState<number>(1.0);
-  const [pdfDirectUrl, setPdfDirectUrl] = useState<string>('/resume.pdf');
+  const [isPdfLoaded, setIsPdfLoaded] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
-  const viewportRef = useRef<HTMLDivElement>(null);
-  const canvasContainerRef = useRef<HTMLDivElement>(null);
 
   // Trigger GPU slide-up animation after mount
   useEffect(() => {
     const animationFrame = requestAnimationFrame(() => {
       setIsVisible(true);
     });
-
-    return () => {
-      cancelAnimationFrame(animationFrame);
-    };
+    return () => cancelAnimationFrame(animationFrame);
   }, []);
 
   const handleClose = useCallback(() => {
@@ -56,129 +43,9 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
     }
   };
 
-  // Render PDF pages cleanly onto HTML5 Canvases using PDF.js
-  useEffect(() => {
-    let isCancelled = false;
-
-    const renderPDF = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-
-        // Robust multi-path resolution to handle root domains, subpaths, and custom domains
-        const targetPaths = [
-          '/resume.pdf',
-          'resume.pdf',
-          '/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf',
-          'Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf'
-        ];
-
-        let res: Response | null = null;
-        let successfulUrl = '';
-
-        for (const path of targetPaths) {
-          try {
-            const urlToFetch = new URL(path, window.location.href).href;
-            const r = await fetch(urlToFetch);
-            if (r.ok) {
-              const contentType = r.headers.get('content-type') || '';
-              // Verify we received actual PDF binary data instead of HTML 404 fallback page
-              if (!contentType.includes('text/html')) {
-                res = r;
-                successfulUrl = urlToFetch;
-                break;
-              }
-            }
-          } catch {
-            // Try next candidate path
-          }
-        }
-
-        if (!res) {
-          throw new Error('PDF file could not be fetched from server paths.');
-        }
-
-        setPdfDirectUrl(successfulUrl);
-        const data = await res.arrayBuffer();
-
-        const loadingTask = pdfjsLib.getDocument({
-          data,
-          cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/',
-          cMapPacked: true
-        });
-
-        const pdf = await loadingTask.promise;
-
-        if (isCancelled || !canvasContainerRef.current) return;
-
-        // Clear previous canvas renders
-        canvasContainerRef.current.innerHTML = '';
-
-        const containerWidth = viewportRef.current
-          ? Math.min(viewportRef.current.clientWidth - 32, 900)
-          : 800;
-
-        for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-          if (isCancelled) break;
-
-          const page = await pdf.getPage(pageNum);
-          const unscaledViewport = page.getViewport({ scale: 1.0 });
-
-          // Calculate responsive scale factor
-          const baseScale = containerWidth / unscaledViewport.width;
-          const scale = baseScale * zoomScale;
-          const viewport = page.getViewport({ scale });
-
-          // Support retina & high-DPI mobile screens
-          const dpr = window.devicePixelRatio || 1;
-
-          const canvas = document.createElement('canvas');
-          const context = canvas.getContext('2d');
-          if (!context) continue;
-
-          canvas.width = viewport.width * dpr;
-          canvas.height = viewport.height * dpr;
-          canvas.style.width = `${viewport.width}px`;
-          canvas.style.height = `${viewport.height}px`;
-          canvas.style.display = 'block';
-          canvas.style.margin = '0 auto 1.5rem auto';
-          canvas.style.borderRadius = '8px';
-          canvas.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.4)';
-
-          context.scale(dpr, dpr);
-
-          const renderContext = {
-            canvasContext: context,
-            viewport: viewport,
-            canvas: canvas
-          };
-
-          await page.render(renderContext).promise;
-
-          if (!isCancelled && canvasContainerRef.current) {
-            canvasContainerRef.current.appendChild(canvas);
-          }
-        }
-
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
-      } catch (err: any) {
-        console.error('Failed to render PDF canvas:', err);
-        if (!isCancelled) {
-          const errMsg = err?.message || String(err) || 'Failed to render PDF canvas.';
-          setError(errMsg);
-          setIsLoading(false);
-        }
-      }
-    };
-
-    renderPDF();
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [zoomScale]);
+  const pdfUrl = '/resume.pdf';
+  // Use responsive PDF viewer frame for 100% cross-platform mobile & desktop rendering
+  const embedUrl = `https://docs.google.com/gview?embedded=true&url=${encodeURIComponent('https://sainandu.is-a.dev/resume.pdf')}`;
 
   return (
     <div
@@ -193,34 +60,15 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
         {/* Sticky Control Toolbar */}
         <header className="resume-toolbar">
           <div className="resume-toolbar-info">
-            <h2 className="resume-toolbar-title">Sai Nandu Vajhala</h2>
-            <span className="resume-toolbar-badge">Updated July 2026</span>
+            <span className="logo" style={{ textTransform: 'lowercase', fontSize: '1.1rem' }}>
+              sn.dev<span className="logo-dot" />
+            </span>
+            <span className="resume-toolbar-badge">resume</span>
           </div>
 
           <div className="resume-toolbar-actions">
-            {/* Zoom Controls */}
-            <div className="resume-zoom-controls">
-              <button
-                onClick={() => setZoomScale(prev => Math.max(0.8, prev - 0.2))}
-                className="resume-action-btn resume-zoom-btn"
-                title="Zoom Out"
-                type="button"
-              >
-                −
-              </button>
-              <span className="resume-zoom-label">{Math.round(zoomScale * 100)}%</span>
-              <button
-                onClick={() => setZoomScale(prev => Math.min(2.0, prev + 0.2))}
-                className="resume-action-btn resume-zoom-btn"
-                title="Zoom In"
-                type="button"
-              >
-                +
-              </button>
-            </div>
-
             <a
-              href={pdfDirectUrl}
+              href={pdfUrl}
               download="Sai_Nandu_Vajhala_Resume.pdf"
               className="resume-action-btn"
               title="Download PDF"
@@ -230,7 +78,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
             </a>
 
             <a
-              href={pdfDirectUrl}
+              href={pdfUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="resume-action-btn"
@@ -252,51 +100,20 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
           </div>
         </header>
 
-        {/* PDF Viewport Container */}
-        <div ref={viewportRef} className="resume-pdf-viewport">
-          {isLoading && (
+        {/* Responsive PDF Viewport */}
+        <div className="resume-pdf-viewport">
+          {!isPdfLoaded && (
             <div className="resume-skeleton">
               <div className="resume-skeleton-spinner" />
-              <p className="resume-skeleton-text">Rendering Resume PDF...</p>
+              <p className="resume-skeleton-text">Loading Resume PDF...</p>
             </div>
           )}
 
-          {error && (
-            <div className="resume-fallback">
-              <p className="resume-fallback-text">{error}</p>
-              <iframe
-                src={`https://docs.google.com/gview?embedded=true&url=${encodeURIComponent(pdfDirectUrl.startsWith('http') ? pdfDirectUrl : window.location.origin + '/resume.pdf')}`}
-                style={{
-                  width: '100%',
-                  height: '350px',
-                  border: '1px solid var(--navbar-border)',
-                  borderRadius: '12px',
-                  marginBottom: '1rem',
-                  background: '#ffffff'
-                }}
-                title="Mobile PDF Viewer"
-              />
-              <a
-                href={pdfDirectUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="resume-fallback-btn"
-              >
-                <ExternalLinkIcon size={16} /> Open PDF Directly
-              </a>
-            </div>
-          )}
-
-          {/* HTML5 Canvases generated via PDF.js */}
-          <div
-            ref={canvasContainerRef}
-            className="resume-canvas-container"
-            style={{
-              padding: '1.25rem 0.5rem',
-              overflowY: 'auto',
-              maxHeight: '100%',
-              WebkitOverflowScrolling: 'touch'
-            }}
+          <iframe
+            src={embedUrl}
+            className={`resume-pdf-frame ${isPdfLoaded ? 'is-loaded' : ''}`}
+            title="Sai Nandu Vajhala Resume"
+            onLoad={() => setIsPdfLoaded(true)}
           />
         </div>
       </div>
