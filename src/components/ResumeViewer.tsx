@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import * as pdfjsLib from 'pdfjs-dist';
+import pdfWorker from 'pdfjs-dist/build/pdf.worker.mjs?url';
 import { DownloadIcon, ExternalLinkIcon, XIcon } from './Icons';
 
-// Set up PDF.js worker using CDN fallback to ensure 100% reliability on mobile devices
-pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+// Use Vite bundled local worker asset to eliminate CORS and cross-origin worker blocking on mobile
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
 interface ResumeViewerProps {
   onClose: () => void;
@@ -225,7 +226,7 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
                 href="/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="resume-action-btn"
+                className="resume-fallback-btn"
               >
                 <ExternalLinkIcon size={16} /> Open PDF Directly
               </a>
