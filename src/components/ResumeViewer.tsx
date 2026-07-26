@@ -64,8 +64,19 @@ export const ResumeViewer: React.FC<ResumeViewerProps> = ({ onClose }) => {
         setIsLoading(true);
         setError(null);
 
-        const pdfPath = '/Vajhala_Sai_Nandu_AI_ML_Engineer_Resume.pdf';
-        const loadingTask = pdfjsLib.getDocument({ url: pdfPath });
+        // Fetch arrayBuffer directly to guarantee mobile path resolution & loading
+        const pdfUrl = new URL('/resume.pdf', window.location.origin).href;
+        const res = await fetch(pdfUrl);
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}: Failed to load resume PDF.`);
+        }
+        const data = await res.arrayBuffer();
+
+        const loadingTask = pdfjsLib.getDocument({
+          data,
+          cMapUrl: 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/cmaps/',
+          cMapPacked: true
+        });
         const pdf = await loadingTask.promise;
 
         if (isCancelled || !canvasContainerRef.current) return;
