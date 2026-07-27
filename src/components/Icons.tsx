@@ -23,6 +23,12 @@ export const MailIcon: React.FC<{ size?: number }> = ({ size = 18 }) => (
   </svg>
 );
 
+export const KaggleIcon: React.FC<{ size?: number }> = ({ size = 18 }) => (
+  <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor">
+    <path d="M18.825 23.859h-3.225l-5.466-8.318-2.61 2.378v5.94H4.551V.141h2.973v14.185l7.575-8.736h3.694l-6.866 7.643 6.9 10.626z" />
+  </svg>
+);
+
 // Navigation Controls
 export const MenuIcon: React.FC<{ size?: number }> = ({ size = 16 }) => (
   <svg viewBox="0 0 24 24" width={size} height={size} stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">

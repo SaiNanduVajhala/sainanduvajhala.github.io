@@ -3,6 +3,7 @@ import { ThemeToggle } from './ThemeToggle';
 import {
   GithubIcon,
   LinkedinIcon,
+  KaggleIcon,
   MailIcon,
   MenuIcon,
   XIcon,
@@ -135,6 +136,9 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
                   <LinkedinIcon size={15} />
                 </a>
                 <a href="https://kaggle.com/vajhalasainandu" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="Kaggle">
+                  <KaggleIcon size={15} />
+                </a>
+                <a href="mailto:vajhalasainandu@gmail.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="Email">
                   <MailIcon size={15} />
                 </a>
               </div>

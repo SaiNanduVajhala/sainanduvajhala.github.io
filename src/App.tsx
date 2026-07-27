@@ -5,7 +5,7 @@ import { Hero } from './components/Hero';
 import { BentoGrid } from './components/BentoGrid';
 import { Carousel } from './components/Carousel';
 import { Timeline } from './components/Timeline';
-import { MailIcon } from './components/Icons';
+import { MailIcon, CopyIcon } from './components/Icons';
 
 // Code-split & Lazy-loaded Resume Viewer Overlay Component
 const ResumeViewer = React.lazy(() => import('./components/ResumeViewer'));
@@ -103,25 +103,49 @@ function App() {
         </section>
 
         {/* Contact Section */}
-        <section id="contact" style={{ padding: '4rem 0 2rem', textAlign: 'center' }}>
+        <section id="contact" style={{ padding: '4rem 0 4rem', textAlign: 'center' }}>
           <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.6rem' }}>
             .contactme()
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '500px', margin: '0 auto 2rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '500px', margin: '0 auto 1.25rem' }}>
             Open for AI/ML engineering roles, research collaborations, and cognitive system consulting.
           </p>
 
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+            <button
+              onClick={handleContactClick}
+              type="button"
+              aria-label="Copy email address to clipboard"
+              title="Click to copy email address"
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.85rem',
+                color: 'var(--text-primary)',
+                background: 'var(--card-bg)',
+                padding: '0.65rem 1.4rem',
+                borderRadius: '9999px',
+                border: '1px solid var(--card-border)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.6rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <span>{copied ? 'copied.to.clipboard()' : 'vajhalasainandu@gmail.com'}</span>
+              <CopyIcon size={14} />
+            </button>
+
             <a
               href="mailto:vajhalasainandu@gmail.com"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={handleContactClick}
               className="btn btn-primary"
               style={{
-                padding: '0.6rem 1.6rem',
+                padding: '0.65rem 1.6rem',
                 borderRadius: '9999px',
-                fontSize: '0.8rem',
+                fontSize: '0.85rem',
                 fontFamily: 'var(--font-mono)',
                 textDecoration: 'none',
                 cursor: 'pointer',
@@ -132,21 +156,27 @@ function App() {
               }}
             >
               <MailIcon size={14} />
-              {copied ? 'copied.to.clipboard()' : 'send.email()'}
+              send.email()
             </a>
           </div>
         </section>
       </main>
 
-      {/* Footer */}
-      <footer style={{ borderTop: '1px solid var(--border-light)', padding: '2rem 1rem', textAlign: 'center', marginTop: '4rem' }}>
-        <div className="max-width-wrapper" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} Sai Nandu Vajhala. Engineered with precision.
+      {/* Semantic Accessible Site Footer */}
+      <footer className="site-footer" role="contentinfo">
+        <div className="max-width-wrapper footer-inner">
+          <div className="footer-copyright">
+            &copy; {new Date().getFullYear()} Sai Nandu Vajhala
           </div>
-          <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-            sys.status: [operational]
-          </div>
+
+          <nav className="footer-nav" aria-label="Footer links">
+            <ul className="footer-list">
+              <li><a href="https://github.com/SaiNanduVajhala" target="_blank" rel="noopener noreferrer" aria-label="GitHub profile">GitHub</a></li>
+              <li><a href="https://linkedin.com/in/vajhala-sai-nandu" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn profile">LinkedIn</a></li>
+              <li><a href="https://kaggle.com/vajhalasainandu" target="_blank" rel="noopener noreferrer" aria-label="Kaggle profile">Kaggle</a></li>
+              <li><a href="mailto:vajhalasainandu@gmail.com" aria-label="Send email">Email</a></li>
+            </ul>
+          </nav>
         </div>
       </footer>
 

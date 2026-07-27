@@ -128,10 +128,101 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* ponytail: simple, elegant CSS dot grid pattern to avoid generic AI background */
   background-image: radial-gradient(var(--border-light) 1.2px, transparent 1.2px);
   background-size: 28px 28px;
 }
+
+/* ---------- Full-Width Unclipped Accessible Site Footer ---------- */
+.site-footer {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+  overflow: visible;
+  margin: 3rem 0 0 0;
+  padding: 0.75rem 0 1rem;
+  border-top: 1px solid var(--card-border);
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+/* Neutralise the mask that .max-width-wrapper adds */
+.site-footer > .max-width-wrapper {
+  -webkit-mask-image: none;
+          mask-image: none;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 var(--space-4, 1rem);
+}
+
+.site-footer,
+.site-footer > * {
+  overflow: visible;
+}
+
+/* Split row: copyright left, links right */
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.footer-nav {
+  margin: 0;
+  max-width: none;
+}
+
+.footer-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.footer-list li {
+  margin: 0;
+}
+
+.footer-list a,
+.footer-list a:link,
+.footer-list a:visited,
+.footer-list a:any-link,
+.site-footer a {
+  display: inline-block;
+  padding: 0.25rem 0;
+  color: var(--text-primary) !important;
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.85rem;
+  opacity: 1 !important;
+  transition: color 0.2s ease;
+}
+
+.footer-list a:hover,
+.footer-list a:focus-visible,
+.site-footer a:hover {
+  color: var(--accent) !important;
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.footer-copyright {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  font-weight: 600;
+  margin: 0;
+}
+
+
+
+
 
 ::-webkit-scrollbar {
   width: 8px;
