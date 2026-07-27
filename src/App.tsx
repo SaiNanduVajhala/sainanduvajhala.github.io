@@ -68,7 +68,7 @@ function App() {
       <Hero onOpenResume={handleOpenResume} />
 
       {/* Main Content Layout */}
-      <main className="max-width-wrapper" style={{ position: 'relative', zIndex: 10 }}>
+      <main id="main-content" className="max-width-wrapper" style={{ position: 'relative', zIndex: 10 }}>
         {/* Bento Grid (About) */}
         <section id="about" style={{ padding: '3.5rem 0 1.5rem' }}>
           <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>

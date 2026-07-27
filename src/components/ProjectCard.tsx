@@ -172,12 +172,12 @@ export const ProjectCard: React.FC = () => {
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.25rem' }}>
                 <div style={{ display: 'flex', gap: '1rem' }}>
                   {project.github && (
-                    <a href={project.github} target="_blank" rel="noreferrer" className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', gap: '0.4rem', cursor: 'pointer' }}>
-                    <GithubIcon size={14} /> Code
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', gap: '0.4rem', cursor: 'pointer' }} aria-label={`View ${project.title} GitHub repository`}>
+                      <GithubIcon size={14} /> Code
                     </a>
                   )}
                   {project.demo && (
-                    <a href={project.demo} target="_blank" rel="noreferrer" className="btn btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', gap: '0.4rem', cursor: 'pointer' }}>
+                    <a href={project.demo} target="_blank" rel="noopener noreferrer" className="btn btn-primary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', gap: '0.4rem', cursor: 'pointer' }} aria-label={`View ${project.title} live demo`}>
                       <ExternalLink size={14} /> Demo
                     </a>
                   )}
@@ -185,6 +185,9 @@ export const ProjectCard: React.FC = () => {
 
                 <button
                   onClick={() => toggleExpand(idx)}
+                  aria-expanded={isExpanded}
+                  aria-label={`Toggle architectural details for ${project.title}`}
+                  type="button"
                   style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.25rem', fontSize: '0.8rem', cursor: 'pointer', fontFamily: 'var(--font-mono)' }}
                 >
                   Architectural Details 

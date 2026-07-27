@@ -305,21 +305,21 @@ export const Hero: React.FC<{ onOpenResume?: () => void }> = memo(({ onOpenResum
         {/* Intro statement to fill blank space */}
         <motion.p
           initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 0.75, y: 0 }}
+          animate={{ opacity: 0.85, y: 0 }}
           transition={{ delay: 0.65, duration: 0.5 }}
           style={{
-            maxWidth: '540px',
+            maxWidth: '560px',
             margin: '0 auto 2rem',
-            fontSize: 'clamp(0.85rem, 2.5vw, 0.95rem)',
+            fontSize: 'clamp(0.88rem, 2.5vw, 1rem)',
             color: 'var(--text-secondary)',
             lineHeight: 1.6,
             fontWeight: 400
           }}
         >
-          Building deep learning models, low-latency audio assistants, and graph-based cognitive memory loops for autonomous agents.
+          Specializing in low-latency AI agents, real-time audio assistants, and graph-based cognitive memory loops.
         </motion.p>
 
-        {/* Action Button */}
+        {/* Action Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
@@ -327,6 +327,9 @@ export const Hero: React.FC<{ onOpenResume?: () => void }> = memo(({ onOpenResum
           style={{
             display: 'flex',
             justifyContent: 'center',
+            alignItems: 'center',
+            gap: '1rem',
+            flexWrap: 'wrap',
             marginBottom: '1rem'
           }}
         >
@@ -339,7 +342,7 @@ export const Hero: React.FC<{ onOpenResume?: () => void }> = memo(({ onOpenResum
             }}
             className="btn btn-primary"
             style={{
-              padding: '0.6rem 1.6rem',
+              padding: '0.65rem 1.6rem',
               borderRadius: '9999px',
               fontSize: '0.8rem',
               fontFamily: 'var(--font-mono)',
@@ -350,9 +353,12 @@ export const Hero: React.FC<{ onOpenResume?: () => void }> = memo(({ onOpenResum
               gap: '0.5rem',
               border: 'none',
               background: 'var(--accent)',
-              color: 'var(--accent-foreground)'
+              color: 'var(--accent-foreground)',
+              fontWeight: 600,
+              boxShadow: '0 4px 14px rgba(0,0,0,0.1)'
             }}
             type="button"
+            aria-label="View Resume"
           >
             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -363,6 +369,35 @@ export const Hero: React.FC<{ onOpenResume?: () => void }> = memo(({ onOpenResum
             </svg>
             view.resume()
           </button>
+
+          <a
+            href="#systems"
+            onClick={(e) => handleDirectScroll(e, 'systems')}
+            className="btn btn-secondary"
+            style={{
+              padding: '0.65rem 1.6rem',
+              borderRadius: '9999px',
+              fontSize: '0.8rem',
+              fontFamily: 'var(--font-mono)',
+              textDecoration: 'none',
+              cursor: 'pointer',
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              border: '1px solid var(--card-border)',
+              background: 'var(--card-bg)',
+              color: 'var(--text-primary)',
+              fontWeight: 600
+            }}
+            aria-label="See Projects"
+          >
+            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2" />
+              <polyline points="2 17 12 22 22 17" />
+              <polyline points="2 12 12 17 22 12" />
+            </svg>
+            see.projects()
+          </a>
         </motion.div>
       </div>
 

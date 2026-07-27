@@ -374,6 +374,9 @@ export const Carousel: React.FC = memo(() => {
               }}>
                 <button
                   onClick={() => setIsDetailOpen(!isDetailOpen)}
+                  aria-expanded={isDetailOpen}
+                  aria-label={`Toggle detailed architecture and implementation for ${project.title}`}
+                  type="button"
                   style={{
                     width: '100%',
                     display: 'flex',
@@ -431,7 +434,8 @@ export const Carousel: React.FC = memo(() => {
                 <a
                   href={project.github}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener noreferrer"
+                  aria-label={`View ${project.title} source code on GitHub`}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',

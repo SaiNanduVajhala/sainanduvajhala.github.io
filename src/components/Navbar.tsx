@@ -83,61 +83,65 @@ export const Navbar: React.FC<NavbarProps> = memo(({ theme, toggleTheme }) => {
 
   return (
     <header className={`navbar ${isMenuOpen ? 'navbar-open' : ''}`}>
-      <div className="nav-content">
-        <a href="#" className="logo" style={{ textTransform: 'lowercase' }}>
-          sn.dev<span className="logo-dot" />
-        </a>
+      <nav role="navigation" aria-label="Main Navigation" style={{ width: '100%' }}>
+        <div className="nav-content">
+          <a href="#" className="logo" style={{ textTransform: 'lowercase' }}>
+            sn.dev<span className="logo-dot" />
+          </a>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
-          <button
-            onClick={toggleMenu}
-            className="nav-btn nav-hamburger-btn"
-            aria-label="Toggle menu"
-            type="button"
-          >
-            {isMenuOpen ? <XIcon size={16} /> : <MenuIcon size={16} />}
-          </button>
-        </div>
-      </div>
-
-      <div className={`card-nav-dropdown-wrapper ${isMenuOpen ? 'is-open' : ''}`}>
-        <div className="card-nav-dropdown-inner">
-          <div className="card-nav-grid">
-            {menuItems.map(item => (
-              <a
-                key={item.label}
-                href={item.href}
-                onClick={(e) => handleScrollTo(e, item.href)}
-                className="card-nav-item"
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '0.6rem' }}>
-                  <div className="card-nav-icon-wrapper">
-                    {item.icon}
-                  </div>
-                  <ArrowRightIcon size={14} className="card-nav-arrow" />
-                </div>
-                <div className="card-nav-item-title">{item.label}</div>
-                <div className="card-nav-item-desc">{item.desc}</div>
-              </a>
-            ))}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+            <button
+              onClick={toggleMenu}
+              className="nav-btn nav-hamburger-btn"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="navbar-dropdown-menu"
+              type="button"
+            >
+              {isMenuOpen ? <XIcon size={16} /> : <MenuIcon size={16} />}
+            </button>
           </div>
+        </div>
 
-          <div className="card-nav-footer" style={{ justifyContent: 'center' }}>
-            <div style={{ display: 'flex', gap: '1.25rem' }}>
-              <a href="https://github.com/SaiNanduVajhala" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="GitHub">
-                <GithubIcon size={15} />
-              </a>
-              <a href="https://linkedin.com/in/vajhala-sai-nandu" target="_blank" rel="noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="LinkedIn">
-                <LinkedinIcon size={15} />
-              </a>
-              <a href="mailto:vajhalasainandu@gmail.com" style={{ color: 'var(--text-secondary)' }} aria-label="Email">
-                <MailIcon size={15} />
-              </a>
+        <div id="navbar-dropdown-menu" className={`card-nav-dropdown-wrapper ${isMenuOpen ? 'is-open' : ''}`}>
+          <div className="card-nav-dropdown-inner">
+            <div className="card-nav-grid">
+              {menuItems.map(item => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  onClick={(e) => handleScrollTo(e, item.href)}
+                  className="card-nav-item"
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', marginBottom: '0.6rem' }}>
+                    <div className="card-nav-icon-wrapper">
+                      {item.icon}
+                    </div>
+                    <ArrowRightIcon size={14} className="card-nav-arrow" />
+                  </div>
+                  <div className="card-nav-item-title">{item.label}</div>
+                  <div className="card-nav-item-desc">{item.desc}</div>
+                </a>
+              ))}
+            </div>
+
+            <div className="card-nav-footer" style={{ justifyContent: 'center' }}>
+              <div style={{ display: 'flex', gap: '1.25rem' }}>
+                <a href="https://github.com/SaiNanduVajhala" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="GitHub">
+                  <GithubIcon size={15} />
+                </a>
+                <a href="https://linkedin.com/in/vajhala-sai-nandu" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="LinkedIn">
+                  <LinkedinIcon size={15} />
+                </a>
+                <a href="https://kaggle.com/vajhalasainandu" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--text-secondary)' }} aria-label="Kaggle">
+                  <MailIcon size={15} />
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </nav>
     </header>
   );
 });
