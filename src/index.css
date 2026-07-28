@@ -285,14 +285,15 @@ section {
   border-radius: 9999px;
   background: var(--navbar-bg);
   background-image: var(--navbar-bg-image);
-  -webkit-backdrop-filter: blur(24px) saturate(180%);
-  backdrop-filter: blur(24px) saturate(180%);
+  /* Lighter blur for mobile perf */
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  backdrop-filter: blur(12px) saturate(120%);
   border: 1px solid var(--navbar-border);
   box-shadow: var(--navbar-highlight), 0 4px 20px -2px var(--glow-color);
   overflow: hidden;
-  transition: border-radius 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
-              background-color 0.22s ease,
+  transition: background-color 0.22s ease,
               box-shadow 0.2s ease;
+  will-change: background, backdrop-filter;
 }
 
 .navbar::before {
@@ -307,8 +308,8 @@ section {
   z-index: 2;
 }
 
+/* Removed border-radius animation – avoids layout thrash on mobile */
 .navbar-open {
-  border-radius: 28px !important;
   background: var(--navbar-open-bg) !important;
   box-shadow: var(--navbar-highlight), 0 20px 40px -10px var(--glow-color) !important;
 }
@@ -323,26 +324,27 @@ section {
   z-index: 1;
 }
 
-/* Pre-Mounted CSS Grid Wrapper (Zero DOM Mount, Instant Expand) */
+/* Dropdown animation – GPU-accelerated transform + opacity (no layout thrash) */
 .card-nav-dropdown-wrapper {
-  display: grid;
-  grid-template-rows: 0fr;
+  transform: scaleY(0);
+  transform-origin: top;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
-  transition: grid-template-rows 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.18s step-end;
+  transition: transform 0.22s ease,
+              opacity 0.2s ease,
+              visibility 0.22s step-end;
+  will-change: transform, opacity;
 }
 
 .card-nav-dropdown-wrapper.is-open {
-  grid-template-rows: 1fr;
+  transform: scaleY(1);
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transition: grid-template-rows 0.18s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.18s step-start;
+  transition: transform 0.22s ease,
+              opacity 0.2s ease,
+              visibility 0.22s step-start;
 }
 
 .card-nav-dropdown-inner {
