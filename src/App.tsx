@@ -104,7 +104,7 @@ function App() {
 
         {/* Contact Section */}
         <section id="contact" style={{ padding: '4rem 0 4rem', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.6rem' }}>
+          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.6rem' }}>
             .contactme()
           </h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '500px', margin: '0 auto 1.25rem' }}>
