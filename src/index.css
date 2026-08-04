@@ -1126,6 +1126,11 @@ section {
 }
 
 @media (max-width: 768px) {
+  .navbar,
+  .card-nav-dropdown-wrapper,
+  .card-nav-dropdown-inner {
+    transition: none !important;
+  }
   .resume-viewer-overlay {
     padding: 0;
   }
