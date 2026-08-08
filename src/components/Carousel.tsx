@@ -1,5 +1,6 @@
-import React, { useState, memo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, memo, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
 import { SpotlightCard } from './SpotlightCard';
 import { BorderBeam } from './BorderBeam';
 import { GithubIcon } from './Icons';
@@ -130,335 +131,321 @@ const projectsData: Project[] = [
   }
 ];
 
-// Inline SVG arrow icons
-const ChevronLeftIcon = () => (
-  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-);
+interface ProjectCardItemProps {
+  project: Project;
+  idx: number;
+  isActive: boolean;
+  onOpenSpec: () => void;
+}
 
-const ChevronRightIcon = () => (
-  <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="9 6 15 12 9 18" />
-  </svg>
-);
-
-const ChevronDownIcon = ({ isOpen }: { isOpen: boolean }) => (
-  <svg
-    viewBox="0 0 24 24"
-    width="16"
-    height="16"
-    stroke="currentColor"
-    strokeWidth="2.5"
-    fill="none"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    style={{
-      transition: 'transform 0.25s ease',
-      transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)'
-    }}
-  >
-    <polyline points="6 9 12 15 18 9" />
-  </svg>
-);
-
-export const Carousel: React.FC = memo(() => {
-  const [[currentIndex, direction], setPage] = useState<[number, number]>([0, 0]);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
-
-  const slideProject = (newDirection: number) => {
-    let nextIndex = currentIndex + newDirection;
-    if (nextIndex >= projectsData.length) nextIndex = 0;
-    if (nextIndex < 0) nextIndex = projectsData.length - 1;
-    setPage([nextIndex, newDirection]);
-    setIsDetailOpen(false);
-  };
-
-  const project = projectsData[currentIndex];
-
+const ProjectCardItem: React.FC<ProjectCardItemProps> = ({ project, idx, isActive, onOpenSpec }) => {
   return (
-    <div style={{ margin: '2rem 0' }}>
-      {/* ── Top: Project Selector Bar ── */}
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
-        maxWidth: '380px',
-        margin: '0 auto 1.25rem'
-      }}>
-        <button
-          onClick={() => slideProject(-1)}
-          className="btn btn-secondary"
-          style={{
-            width: '2.5rem',
-            height: '2.5rem',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 0,
-            cursor: 'pointer',
-            border: '1px solid var(--card-border)',
-            background: 'var(--card-bg)',
-            flexShrink: 0
-          }}
-          aria-label="Previous project"
-        >
-          <ChevronLeftIcon />
-        </button>
-
-        <div style={{
-          flex: 1,
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          margin: '0 0.75rem',
-          minWidth: 0
-        }}>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.2 }}
-              style={{
-                background: 'var(--card-bg)',
-                border: '1px solid var(--card-border)',
-                borderRadius: '9999px',
-                padding: '0.5rem 1rem',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.85rem',
-                fontWeight: 700,
-                color: 'var(--text-primary)',
-                textAlign: 'center',
-                width: '100%',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-                backdropFilter: 'blur(8px)'
-              }}
-            >
-              {project.title}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        <button
-          onClick={() => slideProject(1)}
-          className="btn btn-secondary"
-          style={{
-            width: '2.5rem',
-            height: '2.5rem',
-            borderRadius: '50%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 0,
-            cursor: 'pointer',
-            border: '1px solid var(--card-border)',
-            background: 'var(--card-bg)',
-            flexShrink: 0
-          }}
-          aria-label="Next project"
-        >
-          <ChevronRightIcon />
-        </button>
-      </div>
-
-      {/* Dots indicator */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: '0.4rem', marginBottom: '1rem' }}>
-        {projectsData.map((_, i) => (
-          <div
-            key={i}
-            onClick={() => { setPage([i, i > currentIndex ? 1 : -1]); setIsDetailOpen(false); }}
-            style={{
-              width: i === currentIndex ? '1.5rem' : '0.4rem',
-              height: '0.4rem',
-              borderRadius: '9999px',
-              background: i === currentIndex ? 'var(--accent)' : 'var(--border-light)',
-              cursor: 'pointer',
-              transition: 'all 0.3s ease'
-            }}
-          />
-        ))}
-      </div>
-
-      {/* ── Bottom: Project Description Card ── */}
-      <AnimatePresence mode="wait" custom={direction}>
-        <motion.div
-          key={currentIndex}
-          custom={direction}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
-          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <SpotlightCard style={{ padding: 0 }}>
-            <div style={{ padding: '1.75rem' }}>
-              {/* Subtitle + Date */}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' }}>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', fontWeight: 500 }}>
+    <div style={{ width: 'clamp(340px, 86vw, 660px)', flexShrink: 0 }}>
+      <SpotlightCard style={{ padding: 0, height: '100%' }}>
+        <div style={{ padding: '1.75rem 2rem', display: 'flex', flexDirection: 'column', height: '100%', justifyContent: 'space-between' }}>
+          <div>
+            {/* Header Row: Subtitle + Date */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.75rem', marginBottom: '0.85rem' }}>
+              <div>
+                <h3 style={{ fontSize: '1.45rem', fontWeight: 800, color: 'var(--text-primary)', fontFamily: 'var(--font-sans)', letterSpacing: '-0.02em', margin: 0 }}>
+                  {project.title}
+                </h3>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', fontWeight: 500, margin: '0.25rem 0 0 0' }}>
                   {project.subtitle}
                 </p>
-                <span className="badge" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
-                  {project.date}
-                </span>
               </div>
+              <span className="badge" style={{ fontSize: '0.75rem', fontFamily: 'var(--font-mono)' }}>
+                {project.date}
+              </span>
+            </div>
 
-              {/* Technologies */}
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
-                {project.technologies.map(tech => (
-                  <span key={tech} className="badge badge-accent" style={{ fontSize: '0.7rem' }}>{tech}</span>
-                ))}
-              </div>
+            {/* Technologies */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.45rem', marginBottom: '1.1rem' }}>
+              {project.technologies.map(tech => (
+                <span key={tech} className="badge badge-accent" style={{ fontSize: '0.72rem' }}>{tech}</span>
+              ))}
+            </div>
 
-              {/* Core points */}
-              <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', listStyle: 'none', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.5', marginBottom: '1.25rem' }}>
-                {project.points.map((pt, pIdx) => (
-                  <li key={pIdx} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
-                    <span style={{ color: 'var(--accent)', marginTop: '0.15rem', flexShrink: 0 }}>•</span>
-                    <span>{pt}</span>
-                  </li>
-                ))}
-              </ul>
+            {/* Core points */}
+            <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', listStyle: 'none', color: 'var(--text-secondary)', fontSize: '0.88rem', lineHeight: '1.55', margin: '0 0 1.1rem 0', padding: 0 }}>
+              {project.points.map((pt, pIdx) => (
+                <li key={pIdx} style={{ display: 'flex', gap: '0.5rem', alignItems: 'flex-start' }}>
+                  <span style={{ color: 'var(--accent)', marginTop: '0.15rem', flexShrink: 0 }}>•</span>
+                  <span>{pt}</span>
+                </li>
+              ))}
+            </ul>
 
-              {/* Metrics row */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
-                gap: '1rem',
-                background: 'var(--border-light)',
-                padding: '1rem',
-                borderRadius: '12px',
-                marginBottom: '1rem'
-              }}>
-                {project.metrics.map(m => (
-                  <div key={m.label} style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '1.3rem', fontWeight: 800, fontFamily: 'var(--font-mono)', color: 'var(--text-primary)' }}>
-                      {m.value}
-                    </div>
-                    <div style={{ fontSize: '0.65rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginTop: '0.15rem' }}>
-                      {m.label}
-                    </div>
-                  </div>
-                ))}
-
-                {/* Mini loss curve */}
-                {project.lossCurve && (
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>
-                    <span style={{ fontSize: '0.6rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)', marginBottom: '0.2rem', textTransform: 'uppercase' }}>
-                      Telemetry
-                    </span>
-                    <svg viewBox="0 0 100 30" style={{ width: '80px', height: '28px' }}>
-                      <path
-                        d={project.lossCurve.map((val, i) => `${i === 0 ? 'M' : 'L'} ${(i / (project.lossCurve!.length - 1)) * 100} ${30 - (val / 95) * 25}`).join(' ')}
-                        fill="none"
-                        stroke="var(--accent)"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-                )}
-              </div>
-
-              {/* ── Detailed Description Dropdown ── */}
-              <div style={{
-                border: '1px solid var(--card-border)',
-                borderRadius: '10px',
+            {/* Trigger Button for Glass Architecture Spec Modal */}
+            <button
+              onClick={onOpenSpec}
+              type="button"
+              aria-label={`View detailed architecture for ${project.title}`}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                padding: '0.5rem 0.9rem',
+                background: 'rgba(var(--accent-rgb), 0.08)',
+                border: '1px solid rgba(var(--accent-rgb), 0.22)',
+                borderRadius: '8px',
+                color: 'var(--accent)',
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                cursor: 'pointer',
                 marginBottom: '1rem',
-                overflow: 'hidden'
-              }}>
-                <button
-                  onClick={() => setIsDetailOpen(!isDetailOpen)}
-                  aria-expanded={isDetailOpen}
-                  aria-label={`Toggle detailed architecture and implementation for ${project.title}`}
-                  type="button"
-                  style={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    padding: '0.75rem 1rem',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    color: 'var(--text-primary)',
-                    fontFamily: 'var(--font-mono)',
-                    fontSize: '0.78rem',
-                    fontWeight: 600,
-                    letterSpacing: '0.02em'
-                  }}
-                >
-                  <span>Detailed Architecture & Implementation</span>
-                  <ChevronDownIcon isOpen={isDetailOpen} />
-                </button>
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <span>View Architecture Specs →</span>
+            </button>
+          </div>
 
-                <AnimatePresence initial={false}>
-                  {isDetailOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                      style={{ overflow: 'hidden' }}
-                    >
-                      <div style={{
-                        padding: '0 1rem 1rem 1rem',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '0.65rem',
-                        borderTop: '1px solid var(--card-border)'
-                      }}>
-                        {project.details.map((detail, dIdx) => (
-                          <p key={dIdx} style={{
-                            color: 'var(--text-secondary)',
-                            fontSize: '0.82rem',
-                            lineHeight: '1.55',
-                            margin: dIdx === 0 ? '0.75rem 0 0 0' : 0
-                          }}>
+          {/* Footer Controls / GitHub Link */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${project.title} source code on GitHub`}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '0.45rem',
+                  color: 'var(--text-secondary)',
+                  fontSize: '0.76rem',
+                  fontFamily: 'var(--font-mono)',
+                  textDecoration: 'none',
+                  padding: '0.4rem 0.85rem',
+                  border: '1px solid var(--card-border)',
+                  borderRadius: '8px',
+                  transition: 'border-color 0.2s ease, color 0.2s ease'
+                }}
+              >
+                <GithubIcon size={14} />
+                View Source
+              </a>
+            )}
+            <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>
+              0{idx + 1} / 0{projectsData.length}
+            </span>
+          </div>
+        </div>
+
+        {isActive && <BorderBeam size={220} duration={12} />}
+      </SpotlightCard>
+    </div>
+  );
+};
+
+export const Carousel: React.FC = memo(() => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [scrollRange, setScrollRange] = useState(0);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [activeModalProject, setActiveModalProject] = useState<{ project: Project; idx: number } | null>(null);
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const index = Math.min(
+      projectsData.length - 1,
+      Math.max(0, Math.round(latest * (projectsData.length - 1)))
+    );
+    setActiveIdx(index);
+  });
+
+  useEffect(() => {
+    const updateRange = () => {
+      if (trackRef.current) {
+        // Calculate exact horizontal distance to reveal the 5th project card completely
+        const totalTrackWidth = trackRef.current.scrollWidth;
+        const visibleWidth = trackRef.current.clientWidth || window.innerWidth;
+        const maxScroll = totalTrackWidth - visibleWidth + 150;
+        setScrollRange(Math.max(0, maxScroll));
+      }
+    };
+
+    updateRange();
+    window.addEventListener('resize', updateRange);
+    return () => window.removeEventListener('resize', updateRange);
+  }, []);
+
+  const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
+
+  return (
+    <div ref={containerRef} style={{ position: 'relative', height: '180vh', margin: '0 0 1.5rem 0' }}>
+      <div style={{
+        position: 'sticky',
+        top: '75px',
+        height: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        paddingTop: '1.25rem',
+        paddingBottom: '2.5rem',
+        overflow: 'hidden'
+      }}>
+        {/* Section Header */}
+        <div style={{ marginBottom: '1rem' }}>
+          <h2 style={{ fontSize: '1.65rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.25rem' }}>
+            .systems()
+          </h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', fontWeight: 500, lineHeight: '1.55', margin: 0 }}>
+            Production-grade AI architectures, cognitive agent memory systems, and low-latency audio pipelines.
+          </p>
+        </div>
+
+        {/* Dynamic Scroll-Driven Horizontal Slide Track */}
+        <motion.div
+          ref={trackRef}
+          style={{
+            x,
+            display: 'flex',
+            gap: '1.25rem',
+            paddingLeft: '0.2rem',
+            willChange: 'transform'
+          }}
+        >
+          {projectsData.map((project, idx) => (
+            <ProjectCardItem
+              key={project.title}
+              project={project}
+              idx={idx}
+              isActive={activeIdx === idx}
+              onOpenSpec={() => setActiveModalProject({ project, idx })}
+            />
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Global Root Portal Architecture Spec Modal Overlay */}
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+          {activeModalProject && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveModalProject(null)}
+              style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                width: '100vw',
+                height: '100vh',
+                zIndex: 99999,
+                background: 'rgba(0, 0, 0, 0.72)',
+                backdropFilter: 'blur(16px) saturate(180%)',
+                WebkitBackdropFilter: 'blur(16px) saturate(180%)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                padding: '1.5rem'
+              }}
+            >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.94, y: 15 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: '100%',
+                  maxWidth: '680px',
+                  maxHeight: '85vh',
+                  background: 'var(--background)',
+                  border: '1px solid var(--card-border)',
+                  borderRadius: '20px',
+                  boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.5)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  overflow: 'hidden'
+                }}
+              >
+                {/* Modal Header */}
+                <div style={{
+                  padding: '1.25rem 1.5rem',
+                  borderBottom: '1px solid var(--card-border)',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  background: 'var(--card-bg)'
+                }}>
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.2rem' }}>
+                      <span className="badge badge-accent" style={{ fontSize: '0.7rem' }}>Architecture Spec</span>
+                      <span style={{ fontSize: '0.72rem', fontFamily: 'var(--font-mono)', color: 'var(--text-muted)' }}>0{activeModalProject.idx + 1} / 0{projectsData.length}</span>
+                    </div>
+                    <h3 style={{ fontSize: '1.35rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>{activeModalProject.project.title}</h3>
+                  </div>
+                  <button
+                    onClick={() => setActiveModalProject(null)}
+                    style={{
+                      background: 'transparent',
+                      border: '1px solid var(--card-border)',
+                      borderRadius: '50%',
+                      width: '32px',
+                      height: '32px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                      color: 'var(--text-primary)'
+                    }}
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Modal Body */}
+                <div style={{ padding: '1.5rem', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '1.1rem' }}>
+                  <div>
+                    <h4 style={{ fontSize: '0.82rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', margin: '0 0 0.4rem 0', textTransform: 'uppercase' }}>
+                      System Overview
+                    </h4>
+                    <p style={{ color: 'var(--text-primary)', fontSize: '0.9rem', lineHeight: '1.6', margin: 0 }}>
+                      {activeModalProject.project.subtitle}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 style={{ fontSize: '0.82rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', margin: '0 0 0.6rem 0', textTransform: 'uppercase' }}>
+                      Tech Stack & Engine Dependencies
+                    </h4>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                      {activeModalProject.project.technologies.map(tech => (
+                        <span key={tech} className="badge badge-accent" style={{ fontSize: '0.75rem' }}>{tech}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 style={{ fontSize: '0.82rem', fontFamily: 'var(--font-mono)', color: 'var(--accent)', margin: '0 0 0.6rem 0', textTransform: 'uppercase' }}>
+                      Detailed Architectural Specs
+                    </h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      {activeModalProject.project.details.map((detail, dIdx) => (
+                        <div key={dIdx} style={{ padding: '0.85rem 1rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '10px' }}>
+                          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: '1.6', margin: 0 }}>
                             {detail}
                           </p>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-
-              {/* GitHub link */}
-              {project.github && (
-                <a
-                  href={project.github}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${project.title} source code on GitHub`}
-                  style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.4rem',
-                    color: 'var(--text-secondary)',
-                    fontSize: '0.78rem',
-                    fontFamily: 'var(--font-mono)',
-                    textDecoration: 'none',
-                    padding: '0.4rem 0.8rem',
-                    border: '1px solid var(--card-border)',
-                    borderRadius: '8px',
-                    transition: 'border-color 0.2s ease, color 0.2s ease'
-                  }}
-                >
-                  <GithubIcon size={14} />
-                  View Source
-                </a>
-              )}
-            </div>
-            <BorderBeam size={180} duration={14} />
-          </SpotlightCard>
-        </motion.div>
-      </AnimatePresence>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
     </div>
   );
 });

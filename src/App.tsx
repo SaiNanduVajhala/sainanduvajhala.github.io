@@ -70,33 +70,27 @@ function App() {
       {/* Main Content Layout */}
       <main id="main-content" className="max-width-wrapper" style={{ position: 'relative', zIndex: 10 }}>
         {/* Bento Grid (About) */}
-        <section id="about" style={{ padding: '3.5rem 0 1.5rem' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>
+        <section id="about" style={{ padding: '2.5rem 0 2rem', marginTop: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.65rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>
             .about()
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', fontWeight: 500, lineHeight: '1.55', marginBottom: '1.5rem' }}>
             B.Tech Computer Science student specializing in AI & Machine Learning, with expertise in deep learning models, low-latency audio assistants, and graph-based cognitive memory loops.
           </p>
           <BentoGrid />
         </section>
 
         {/* Systems & Architecture (Projects Carousel) */}
-        <section id="systems" style={{ padding: '3rem 0' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>
-            .systems()
-          </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
-            Production-grade AI architectures, cognitive agent memory systems, and low-latency audio pipelines.
-          </p>
+        <section id="systems" style={{ paddingTop: '1.5rem' }}>
           <Carousel />
         </section>
 
         {/* Chronology & Milestones (Timeline) */}
-        <section id="chronology" style={{ padding: '3rem 0' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>
+        <section id="chronology" style={{ padding: '3.5rem 0 3rem' }}>
+          <h2 style={{ fontSize: '1.65rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.4rem' }}>
             .chronology()
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', fontWeight: 500, lineHeight: '1.55', marginBottom: '1.5rem' }}>
             Timeline of education, key milestones, hackathons, and certifications.
           </p>
           <Timeline />
@@ -104,10 +98,10 @@ function App() {
 
         {/* Contact Section */}
         <section id="contact" style={{ padding: '4rem 0 4rem', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.6rem' }}>
+          <h2 style={{ fontSize: '1.65rem', fontWeight: 900, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: '0.6rem' }}>
             .contactme()
           </h2>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', maxWidth: '500px', margin: '0 auto 1.25rem' }}>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.92rem', fontWeight: 500, lineHeight: '1.55', maxWidth: '500px', margin: '0 auto 1.25rem' }}>
             Open for AI/ML engineering roles, research collaborations, and cognitive system consulting.
           </p>
 

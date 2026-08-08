@@ -34,7 +34,7 @@ const projectsData: Project[] = [
       "Built a memory OS based on Erik Hoel's Overfitted Brain Hypothesis, enabling AI agents to consolidate raw experiences during 'sleep' and wake up with structured, abstraction-linked schemas.",
       "Integrated Cognee graph schemas with SQLite caching for sub-millisecond dynamic entity recall and interactive 3D force-directed visualizations."
     ],
-    github: "https://github.com/SaiNanduVajhala/Oneiros", // ponytail: sensible fallback URLs
+    github: "https://github.com/SaiNanduVajhala/Oneiros",
     details: "Architectural Detail: The system manages experiences in a temporary SQLite database, then periodically feeds them through a graph consolidation daemon (representing REM sleep). It extracts abstract schemas using LLMs and updates a long-term Neo4j/Cognee knowledge graph. Caching layer is structured to minimize latency to sub-milliseconds during active conversations.",
     metrics: [
       { label: "Recall Latency", value: "<1ms" },
